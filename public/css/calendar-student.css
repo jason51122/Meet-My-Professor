@@ -13,6 +13,10 @@ a{
 	color:black;
 }
 
+a:hover{
+	text-decoration:underline;
+}
+
 li{
 	list-style-type:none;
 	display:inline;
@@ -51,17 +55,18 @@ li:active{
 	border:1px solid black;
 	margin-left:00px;
 	margin-top:22px;
-	background-color:#800000;
+	background-color:white;
 }
 
 #settings{
 	height:755px;
 	width:450px;
-	margin-left:50px;
+	margin-left:40px;
 	margin-top:45px;
 	position:relative;
 	top:-20px;
-	background-color:white;
+	background-color:#800000;
+	color: white;
 	border:2px solid black;
 }
 
@@ -75,6 +80,7 @@ body{
 	position:relative;
 	top:-780px;
 	left:80px;
+	font-weight:bold;
 }
 
 #pref{
@@ -82,7 +88,7 @@ body{
 	font-size:40px;
 	position:relative;
 	top:-770px;
-	left:150px;
+	left:130px;
 	font-weight:bold;
 	text-decoration: underline;
 }
