@@ -61,12 +61,11 @@ li:active{
 #settings{
 	height:755px;
 	width:450px;
-	margin-left:40px;
+	margin-left:50px;
 	margin-top:45px;
 	position:relative;
 	top:-20px;
 	background-color:white;
-	color: white;
 	border:2px solid black;
 }
 
@@ -80,7 +79,6 @@ body{
 	position:relative;
 	top:-780px;
 	left:80px;
-	font-weight:bold;
 }
 
 #pref{
