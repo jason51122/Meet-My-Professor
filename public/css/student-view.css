@@ -8,13 +8,24 @@
 	src:url(DagnyWebPro-Xlight.woff) format("woff");
 }
 
-html{
-	background: url(../img/theme.jpg) no-repeat center center fixed;
-}
-
 body{
 	font-family: "ff-dagny-web-pro-light";
 	margin: 0;
+	min-width: 1050px;
+}
+
+#banner {
+	position: relative;
+}
+
+#theme {
+	background: url(../img/theme.jpg);
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 80px;
+	width: 100%;
+	z-index: -1;
 }
 
 #navbar{
@@ -65,14 +76,13 @@ li a:active{
 }
 
 #content {
-	background-color: white;
 	padding-top: 30px;
 	padding-bottom: 30px;
-}
 
-#content_wrapper {
 	width: 1050px;
 	margin: auto;
+
+	background-color: white;
 	font-family: sans-serif;
 }
 
@@ -159,10 +169,4 @@ li a:active{
 	width: 700px;
 	margin: auto;
 	display: inline-block;
-}
-
-#footer {
-	clear: both;
-	height: 40px;
-	background: rgba(100, 100, 100, 0.8);
 }
