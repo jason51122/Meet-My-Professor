@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>student-view</title>
+
+    <link rel='stylesheet' type='text/css' href='../public/css/fullcalendar.css' />
+    <link rel="stylesheet" href="../public/css/student-view.css" type="text/css" />
+
+    <script type='text/javascript' src='../public/js/jquery.min.js'></script>
+    <script type="text/javascript" src='../public/js/jquery-ui.custom.min.js'></script>
+    <script type="text/javascript" src='../public/js/moment.min.js'></script>
+    <script type='text/javascript' src='../public/js/fullcalendar.js'></script>
+    <script type="text/javascript" src='../public/js/student-view.js'></script>
+  </head>
+
+  <body>
+    <div id="theme">
+    </div>
+
+    <div id="navbar">
+      <ul>
+        <li id="nav_home">
+          <a href="homepage2.html">HOME</a>
+        </li>
+        <li id="nav_about">
+          <a href="about.html">ABOUT</a>
+        </li>
+        <li id="nav_contact">
+          <a href="contact.html">CONTACT</a>
+        </li>
+      </ul>
+    </div>
+
+    <div id="content">
+    <div id="content_wrapper">
+
+      <div id="side">
+        <div class="separator">
+          <div class="separator_text">Calendar Information</div>
+        </div>
+
+        <div class="item">
+          <div class="item_name">Professor </div>
+          <div class="item_static"> Jeff Huang </div>
+          <div class="item_description">HCI professor from Brown University</div>
+        </div>
+
+        <div class="item">
+          <div class="item_name">Calendar ID </div>
+          <div class="item_static"> XXXXXX </div>
+          <div class="item_description">put the calendar description here </div>
+        </div>
+
+        <div class="separator" id="your_info">
+          <div class="separator_text">Your Information</div>
+        </div>
+
+        <div class="item">
+          <div class="item_name">Name </div>
+          <input class="item_input" type="text" name="your_name" value="XXXXXX">
+          <div class="item_description"> put your name here</div>
+        </div>
+
+        <div class="item">
+          <div class="item_name">Email </div>
+          <input class="item_input" type="text" name="your_name" value="XXXXXX">
+          <div class="item_description"> we will send your request and professor confirmation to this email</div>
+        </div>
+
+        <div class="separator" id="suggested_times">
+          <div class="separator_text">Suggested Times</div>
+        </div>
+
+      </div>
+      
+      <div id="calendar"></div>
+
+    </div>
+    </div>
+
+    <div id="footer">
+    </div>
+
+  </body>
+</html>
