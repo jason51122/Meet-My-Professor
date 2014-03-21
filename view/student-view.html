@@ -52,26 +52,76 @@
           <div class="item_description">put the calendar description here </div>
         </div>
 
-        <div class="item">
-          <div class="item_name">Name </div>
-          <input class="item_input" type="text" name="your_name" value="XXXXXX">
-          <div class="item_description"> put your name here</div>
-        </div>
+        <div id="reservation_detail">
+          <div class="item">
+            <div class="item_name">Time </div>
+            <div class="item_static"> XXXXXX </div>
+            <div class="item_description">put the calendar description here </div>
+          </div>
 
-        <div class="item">
-          <div class="item_name">Email </div>
-          <input class="item_input" type="text" name="your_name" value="XXXXXX">
-          <div class="item_description"> we will send your request and professor confirmation to this email</div>
+          <div class="item">
+            <div class="item_name">Name </div>
+            <div class="item_static"> XXXXXX </div>
+            <div class="item_description">put the calendar description here </div>
+          </div>
+
+          <div class="item">
+            <div class="item_name">Email </div>
+            <div class="item_static"> XXXXXX </div>
+            <div class="item_description">put the calendar description here </div>
+          </div>
+
+          <div class="item">
+            <div class="item_name">For </div>
+            <div class="item_static"> XXXXXX </div>
+            <div class="item_description">put the calendar description here </div>
+          </div>
         </div>
 
       </div>
       
-      <div id="calendar"></div>
-
+      <div id="calendar">
+      </div>
     </div>
 
-    <div id="footer">
+    <div id="reservation_wrapper">
+        <div id="reservation">
+          <div class="pop_title"> Make A Reservation</div>
+
+          <div class="pop_item">
+            <div class="pop_item_name">Time </div>
+            <input class="pop_item_input" type="text" name="time_start" value="XXXXXX">
+            <div class="pop_item_description"> From what time to what time
+            </div>
+          </div>
+
+          <div class="pop_item">
+            <div class="pop_item_name">Name </div>
+            <input class="pop_item_input" type="text" name="your_name" value="XXXXXX">
+            <div class="pop_item_description"> put your name here</div>
+          </div>
+
+          <div class="pop_item">
+            <div class="pop_item_name">Email </div>
+            <input class="pop_item_input" type="text" name="your_email" value="XXXXXX">
+            <div class="pop_item_description"> we will send your request and professor confirmation to this email</div>
+          </div>
+
+          <div class="pop_item">
+            <div class="pop_item_name">For </div>
+            <input class="pop_item_input" type="text" name="for_what" value="XXXXXX">
+            <div class="pop_item_description">For what purpose, make it as short as possible, only 30 characters allowed</div>
+          </div>
+
+          <div class="pop_item" id="btn_wrapper">
+            <input class="pop_btn" type="button" id="ok_btn" onclick="pop_ok()" value="OK">
+            <input class="pop_btn" type="button" id="cancel_btn" onclick="pop_cancel()" value="Cancel">
+          </div>
+
+        </div>
     </div>
+
+    <div id="footer"></div>
 
   </body>
 </html>
