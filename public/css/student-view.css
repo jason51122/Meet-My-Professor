@@ -30,7 +30,7 @@ body{
 
 #navbar{
 	height: 80px;
-	background: rgba(100, 100, 100, 0.8);
+	/*background: rgba(100, 100, 100, 0.8);*/
 }
 
 ul{
@@ -91,6 +91,7 @@ li a:active{
 	min-height: 700px;
 	float: left;
 	margin-right: 20px;
+	padding-top: 60px;
 }
 
 .item {
