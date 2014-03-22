@@ -33,7 +33,7 @@ body{
 	/*background: rgba(100, 100, 100, 0.8);*/
 }
 
-ul{
+#navbar ul{
 	margin: 0px;
 	padding: 0px;
 	font-family:"ff dagny-web-pro-light";
@@ -54,7 +54,7 @@ ul{
 
 }
 
-li{
+#navbar li{
 	list-style-type:none;
 	display:inline;
 }
@@ -98,7 +98,7 @@ li a:active{
 }
 
 .item {
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
 .item_name {
@@ -161,7 +161,7 @@ li a:active{
 	width: 100%;
 	height: 100%;
 	position: fixed;
-	z-index: 1;
+	z-index: 5;
 	top: 0;
 	left: 0;
 	background-color: rgba(255,255,255,.4);
@@ -170,11 +170,10 @@ li a:active{
 }
 
 #reservation {
-	width: 500px;
-	min-height: 300px;
+	width: 650px;
+	min-height: 350px;
 
-	padding-bottom: 20px;
-	padding-top: 20px;
+	padding: 20px;
 
 	margin: auto;
 	margin-top: 100px;
@@ -194,29 +193,43 @@ li a:active{
 	text-align: center;
 }
 
+.pop_body {
+
+
+}
+
+.pop_left {
+	float: left;
+}
+
 .pop_item {
-	margin: auto;
 	width: 400px;
 	margin-bottom: 15px;
+
 }
 
 .pop_item_name {
 	font-weight: bold;
+	width: 50px;
+	float: left;
+	text-align: right;
+	padding-top: 10px;
 }
 
 .pop_item_input {
 	border: none;
 
-	margin-left: 35px;
-	margin-top: 5px;
+	margin-left: 10px;
 	padding: 3px;
 
 	background-color: transparent;
 	border-bottom: solid rgb(180, 180, 180);
 
-	width: 350px;
+	width: 330px;
 	color: white;
 	font-size: inherit;
+
+	float: right;
 }
 
 .pop_item_input:hover {
@@ -229,19 +242,21 @@ li a:active{
 }
 
 .pop_item_description {
-	margin-left: 35px;
+	margin-left: 65px;
 	color: rgb(230, 230, 230);
 	font-size: 10pt;
+
+	clear: both;
 }
 
-.pop_btn {
-	border: none;
+.btn {
 	background-color: transparent;
 
-	border-bottom: solid rgb(180, 180, 180);
+	border: solid rgb(180, 180, 180);
+	border-radius: 4px;
 	font-size: 15pt;
 	font-weight: bold;
-	color: rgb(230, 230, 230);
+	color: rgb(180, 180, 180);
 	width: 100px;
 	text-align: center;
 
@@ -250,13 +265,34 @@ li a:active{
 
 .pop_btn:hover {
 	color: white;
-	border-bottom: solid white;
+	border-color: white;
 }
 
 .pop_btn:focus{
 	outline: none;
 	color: white;
-	border-bottom: solid white;
+	border-color: white;
+}
+
+.pop_right {
+	float: right;
+	width: 220px;
+	border-left: solid 1px rgb(230, 230, 230);
+}
+
+#suggested_times {
+	padding: 0px;
+	margin-top: 10px;
+}
+
+#suggested_list {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-left: 40px;
+}
+
+.suggested_item {
+	margin-bottom: 5px;
 }
 
 #btn_wrapper {
@@ -269,4 +305,27 @@ li a:active{
 
 #cancel_btn {
 	float: right;
+}
+
+#detail_btn_wrapper {
+	margin-top: 25px;
+}
+
+#submit_btn {
+	float: left;
+}
+
+#reset_btn {
+	float: right;
+}
+
+.detail_btn:hover{
+	color: #3A87AD;
+	border-color: #3A87AD;
+}
+
+.detail_btn:focus{
+	outline: none;
+	color: #3A87AD;
+	border-color: #3A87AD;
 }

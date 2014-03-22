@@ -53,3 +53,14 @@ function pop_cancel(){
 	// update reservation detail and show
 	$("#reservation_detail").show();
 }
+
+function detail_submit(){
+	// submit the reservation detail
+}
+
+function detail_reset(){
+	// clear the event from the calendar
+	
+	// clear reservation detail and hide
+	$("#reservation_detail").hide();
+}
