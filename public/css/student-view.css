@@ -30,7 +30,8 @@ body{
 
 #navbar{
 	height: 80px;
-	/*background: rgba(100, 100, 100, 0.8);*/
+	width: 1050px;
+	margin: auto;
 }
 
 #navbar ul{
@@ -57,6 +58,7 @@ body{
 #navbar li{
 	list-style-type:none;
 	display:inline;
+	float: right;
 }
 
 li a{
