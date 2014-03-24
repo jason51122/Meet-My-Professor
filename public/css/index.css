@@ -44,12 +44,40 @@ body{
 	margin: auto;
 }
 
+#logo_wrapper {
+	float: left;
+	margin-top: 15px;
+
+	/*background-color: white;
+	padding: 20px 10px 20px 10px;
+	border-radius: 6px;*/
+}
+
+#logo {
+	/*font-size: 15pt;
+	font-weight: bold;
+	font-family: sans-serif;*/
+
+	background: url('../img/logo.png') no-repeat;
+	width: 66px;
+	height: 63px;
+	border-radius: 3px;
+	opacity: 0.5;
+	display: block;
+}
+
+#logo:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
 #navbar ul{
 	margin: 0px;
 	padding: 0px;
 	font-family:"ff dagny-web-pro-light";
 	text-align:center;
-	padding-top: 27px;
+	padding-top: 35px;
+	float: right;
 }
 
 #nav_home {
