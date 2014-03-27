@@ -8,9 +8,15 @@ $(document).ready(function() {
 			right: 'month,agendaWeek,agendaDay'
 		},
 		defaultView: 'agendaWeek',
+		allDaySlot: true,
+		slotDuration: '00:30:00',
+		snapDuration: '00:30:00',
+		minTime: '09:00:00',
+		maxTime: '19:00:00',
 		selectHelper: true,
 		selectable: true,
 		select: function(start, end) {
+			$("#reservation_wrapper").show();
 			var eventData = {
 				reservationID: 1,
 				start: start,
@@ -22,9 +28,9 @@ $(document).ready(function() {
 			$('#calendar').fullCalendar('renderEvent', eventData, true);
 			$('#calendar').fullCalendar('unselect');
 		},
-		editable: true,
+		editable: false,
 		events: 'http://www.google.com/calendar/feeds/brownipp%40gmail.com/public/basic',
-		eventColor: '#3a1e1a',
+		eventColor: '#a52d23',
 		eventClick: function(event) {
 			// opens events in a popup window
 			if (event.reservationID == null)
