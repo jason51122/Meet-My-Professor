@@ -148,7 +148,7 @@ app.get('/calendar/pulling/:room/:lastMsg',function(request,response){
 
 app.get('/search/:what', function(request, response){
 	var search = request.params.what;
-	if (search.length)
+	if (search.length);
 });
 
 // by default
