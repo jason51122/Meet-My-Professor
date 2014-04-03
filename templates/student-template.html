@@ -2,18 +2,30 @@
 <html>
   <head>
     <meta charset='utf-8' />
-    <title>Student View</title>
+    <title>{{calID}}</title>
 
-    <link rel='stylesheet' type='text/css' href='../public/css/fullcalendar.css' />
-    <link rel="stylesheet" href="../public/css/student-view.css" type="text/css" />
+    <link rel='stylesheet' type='text/css' href='/css/fullcalendar.css' />
+    <link rel="stylesheet" href="/css/student-template.css" type="text/css" />
 
-    <script type="text/javascript" src='../public/js/global.js'></script>
-    <script type='text/javascript' src='../public/js/jquery.min.js'></script>
-    <script type="text/javascript" src='../public/js/jquery-ui.custom.min.js'></script>
-    <script type="text/javascript" src='../public/js/moment.min.js'></script>
-    <script type='text/javascript' src='../public/js/fullcalendar.js'></script>
-	  <script type='text/javascript' src='../fullcalendar/gcal.js'></script>
-    <script type="text/javascript" src='../public/js/student-view.js'></script>
+    <script type="text/javascript" src='/js/global.js'></script>
+    <script type="text/javascript">
+      var calObj = new Object();
+      calObj.calID = '{{calID}}';
+      calObj.calLink = '{{calLink}}';
+      calObj.calDesp = '{{calDesp}}';
+      calObj.name = '{{name}}';
+      calObj.email = '{{email}}';
+      calObj.expireDate = {{expireDate}};
+      calObj.startTime = '{{startTime}}';
+      calObj.endTime = '{{endTime}}';
+      calObj.interim = {{interim}};
+    </script>
+    <script type='text/javascript' src='/js/jquery.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
+    <script type="text/javascript" src='/js/moment.min.js'></script>
+    <script type='text/javascript' src='/js/fullcalendar.js'></script>
+	  <script type='text/javascript' src='/js/gcal.js'></script>
+    <script type="text/javascript" src='/js/student-template.js'></script>
   </head>
 
   <body>
@@ -46,15 +58,15 @@
       <div id="side">
 
         <div class="item">
-          <div class="item_name">Professor </div>
-          <div class="item_static"> Jeff Huang </div>
+          <div class="item_name">Owner </div>
+          <div class="item_static" id="owner_static">{{name}}</div>
           <div class="item_description">HCI professor from Brown University</div>
         </div>
 
         <div class="item">
           <div class="item_name">Calendar ID </div>
-          <div class="item_static"> </div>
-          <div class="item_description">put the calendar description here </div>
+          <div class="item_static" id="calID_static">{{calID}}</div>
+          <div class="item_description">{{calDesp}}</div>
         </div>
 
         <div id="reservation_detail">
@@ -63,25 +75,25 @@
             <div class="item_static" id="start_time_static">  </div>
             <div id="from_to_static"> </div>
             <div class="item_static" id="end_time_static">  </div> 
-            <div class="item_description">put the calendar description here </div>
+            <div class="item_description">The time you will meet</div>
           </div>
 
           <div class="item">
             <div class="item_name">Name </div>
-            <div class="item_static">  </div>
-            <div class="item_description">put the calendar description here </div>
+            <div class="item_static" id="name_static">  </div>
+            <div class="item_description">Your name displayed</div>
           </div>
 
           <div class="item">
             <div class="item_name">Email </div>
-            <div class="item_static">  </div>
-            <div class="item_description">put the calendar description here </div>
+            <div class="item_static" id="email_static"></div>
+            <div class="item_description">Your email for receiving notification</div>
           </div>
 
           <div class="item">
             <div class="item_name">For </div>
-            <div class="item_static">  </div>
-            <div class="item_description">put the calendar description here </div>
+            <div class="item_static"  id="for_static"></div>
+            <div class="item_description">For this reason, you want to meet</div>
           </div>
 
           <div class="item" id="detail_btn_wrapper">
@@ -105,29 +117,29 @@
             <div class="pop_left">
               <div class="pop_item">
                 <div class="pop_item_name">Time </div>
-                <input class="pop_item_input" type="text" id="start_time" name="start_time" value="">
+                <input class="pop_item_input" type="text" id="start_time" value="">
                 <div id="from_to"></div>
-                <input class="pop_item_input" type="text" id="end_time" name="end_time" value="">
+                <input class="pop_item_input" type="text" id="end_time" value="">
                 <div class="pop_item_description" id="time_description"> From what time to what time
                 </div>
               </div>
 
               <div class="pop_item">
                 <div class="pop_item_name">Name </div>
-                <input class="pop_item_input" type="text" name="your_name" value="">
-                <div class="pop_item_description"> put your name here</div>
+                <input class="pop_item_input" type="text" id="your_name" value="">
+                <div class="pop_item_description" id="name_description"> put your name here</div>
               </div>
 
               <div class="pop_item">
                 <div class="pop_item_name">Email </div>
-                <input class="pop_item_input" type="text" name="your_email" value="">
-                <div class="pop_item_description"> we will send your request and professor confirmation to this email</div>
+                <input class="pop_item_input" type="text" id="your_email" value="">
+                <div class="pop_item_description" id="email_description">your email address to receive notification</div>
               </div>
 
               <div class="pop_item">
                 <div class="pop_item_name">For </div>
-                <input class="pop_item_input" type="text" name="for_what" value="">
-                <div class="pop_item_description">For what purpose, make it as short as possible, only 30 characters allowed</div>
+                <input class="pop_item_input" type="text" id="for_what" value="">
+                <div class="pop_item_description" id="for_description">your reason for this meet</div>
               </div>
 
               <div class="pop_item" id="btn_wrapper">

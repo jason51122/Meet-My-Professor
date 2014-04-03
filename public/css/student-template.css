@@ -19,7 +19,7 @@ body{
 }
 
 #theme {
-	background: url('../img/theme.jpg');
+	background: url(/img/theme.jpg);
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -48,7 +48,7 @@ body{
 	font-weight: bold;
 	font-family: sans-serif;*/
 
-	background: url('../img/logo.png') no-repeat;
+	background: url('/img/logo.png') no-repeat;
 	width: 66px;
 	height: 63px;
 	border-radius: 3px;
@@ -223,7 +223,7 @@ li a:active{
 
 #reservation {
 	width: 650px;
-	min-height: 350px;
+	min-height: 325px;
 
 	padding: 20px;
 

@@ -1288,8 +1288,20 @@ function EventManager(options) { // assumed to be a calendar
 		rangeStart = start;
 		rangeEnd = end;
 		cache = [];
+
+		// CUSTOMIZE: 
+		// should use call back or allow it to be stale
+		// how could we deal with network error ?
+		outerEvents = [];
+		sourcesBarrier = sources.length;
+		
+
 		var fetchID = ++currentFetchID;
 		var len = sources.length;
+
+		// CUSTOMIZE
+		console.log(sources);
+
 		pendingSourceCnt = len;
 		for (var i=0; i<len; i++) {
 			fetchEventSource(sources[i], fetchID);
@@ -1306,6 +1318,9 @@ function EventManager(options) { // assumed to be a calendar
 						var event = buildEvent(events[i], source);
 						if (event) {
 							cache.push(event);
+
+							// CUSTOMIZE: record outbound event
+							outerEvents.push(event);
 						}
 					}
 				}
@@ -1314,6 +1329,12 @@ function EventManager(options) { // assumed to be a calendar
 				if (!pendingSourceCnt) {
 					reportEvents(cache);
 				}
+
+				// CUSTOMIZE: this source is handled
+				sourcesBarrier--;
+				if (0 === sourcesBarrier)
+					console.log("all sources contacted");
+
 			}
 		});
 	}
@@ -1414,6 +1435,9 @@ function EventManager(options) { // assumed to be a calendar
 						callback(events);
 					},
 					error: function() {
+						// CUSTOMIZE
+						isNetworkError = true;
+						
 						applyAll(error, this, arguments);
 						callback();
 					},
