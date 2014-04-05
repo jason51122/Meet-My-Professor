@@ -136,7 +136,7 @@ app.post('/calendar/submit', function(request, response){
 });
 
 function sendReservations(response, respObj, calID){
-	conn.query('SELECT forWhat,startTime,endTime FROM resvTable WHERE calID = $1;', 
+	conn.query('SELECT startTime,endTime FROM resvTable WHERE calID = $1;', 
 				[calID],
 				function(error,result){
 					if (null !== error){

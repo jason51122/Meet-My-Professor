@@ -67,6 +67,7 @@ body{
 	font-family:"ff dagny-web-pro-light";
 	text-align:center;
 	padding-top: 27px;
+	float: right;
 }
 
 #nav_home {
@@ -85,7 +86,7 @@ body{
 #navbar li{
 	list-style-type:none;
 	display:inline;
-	float: right;
+	float: left;
 }
 
 li a{

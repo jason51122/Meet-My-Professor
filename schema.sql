@@ -22,7 +22,7 @@ CREATE TABLE resvTable (
 );
 
 INSERT INTO calTable VALUES(
-    '000000',
+    'cal-000000',
     'http://www.google.com/calendar/feeds/brownipp@gmail.com/public/basic',
     'The first calendar',
     'Zhixiong Chen',

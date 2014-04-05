@@ -249,7 +249,7 @@ function paste_events(events){
 	for (i = 0; i < events.length; i++){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
-		newEvent.title = events[i].forWhat;
+		newEvent.title = 'Busy';
 		newEvent.start = moment.unix(events[i].startTime);
 		newEvent.end = moment.unix(events[i].endTime);
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
