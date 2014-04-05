@@ -33,6 +33,9 @@ $(document).ready(function() {
 			$("#reservation_wrapper").show();
 			$("#start_time").val(eventData.start.format("HH:mm"));
 			$("#end_time").val(eventData.end.format("HH:mm"));
+			$("#your_name").val('');
+			$("#your_email").val('');
+			$("#for_what").val('');
 
 			$('#calendar').fullCalendar('renderEvent', eventData, true);
 			$('#calendar').fullCalendar('unselect');
@@ -63,23 +66,9 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar({
 			maxTime:calObj.endTime
 		});
-});
 
-function fetchDBEvents(){
-	// perhaps should be pulled
-	$.ajax({
-	    type: "GET",
-	    url: "/calendar/pulling/"+calObj.calID,
-	    dataType: "json",
-	    success: function(data) {
-		    console.log(data);
-	    },
-	    error: function(err) {
-	    	isNetworkError = true;
-	        console.log(err);
-	    }
-	});
-}
+	fetchDBEvents();
+});
 
 function format_checker(time){
 	time = time.trim();
@@ -95,8 +84,6 @@ function format_checker(time){
 }
 
 function time_validate(start, end){
-	// we might also have to do the check in the server
-	
 	var i;
 	var test = [start.unix(), end.unix()];
 	var cur;
@@ -107,7 +94,7 @@ function time_validate(start, end){
 			return false;
 		if (test[1] >= cur[0] && test[1] <= cur[1])
 			return false;
-		if (cur[0] < test[0] && cur[1] < test[1])
+		if (cur[0] > test[0] && cur[1] < test[1])
 			return false;
 	}
 
@@ -118,7 +105,7 @@ function time_validate(start, end){
 			return false;
 		if (test[1] >= cur[0] && test[1] <= cur[1])
 			return false;
-		if (cur[0] < test[0] && cur[1] < test[1])
+		if (cur[0] > test[0] && cur[1] < test[1])
 			return false;
 	}
 
@@ -129,6 +116,11 @@ function validateEmail(email)
 {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
+}
+
+function validateName(name){
+	var re = /[~`!@#\$%\^&*+=\-\[\]\\';,/{}|'"':<>?]/g;
+ 	return !(re.test(name));
 }
 
 function pop_ok(){
@@ -177,6 +169,12 @@ function pop_ok(){
 		$("#name_description").css("color","red");
 		return;
 	}
+	if (!validateName(str)){
+		$("#name_description").html("A valid name should not have special characters");
+		$("#name_description").css("color","red");
+		return;
+	}
+	$("#name_description").html("put your name here");
 	$("#name_description").css("color","rgb(230, 230, 230)");
 	eventData.name = str;
 
@@ -229,10 +227,33 @@ function pop_cancel(){
 	if (false === isExist){
 		// clear the pending event from the calendar
 		$("#calendar").fullCalendar('removeEvents', eventData.id);
-		return;
 	}
 
 	$("#reservation_wrapper").hide();
+}
+
+function detail_reset(){
+	isExist = false;
+
+	// clear the event from the calendar
+	$("#calendar").fullCalendar('removeEvents', eventData.id);
+
+	// clear reservation detail and hide
+	$("#reservation_detail").hide();
+}
+
+function paste_events(events){
+	$("#calendar").fullCalendar('removeEvents', 'dbEvents');
+
+	var i;
+	for (i = 0; i < events.length; i++){
+		var newEvent = new Object();
+		newEvent.id = 'dbEvents';
+		newEvent.title = events[i].forWhat;
+		newEvent.start = moment.unix(events[i].startTime);
+		newEvent.end = moment.unix(events[i].endTime);
+		$('#calendar').fullCalendar('renderEvent', newEvent, true);
+	}
 }
 
 function detail_submit(){
@@ -254,6 +275,18 @@ function detail_submit(){
 	    dataType: "json",
 	    success: function(data) {
 		    console.log(data);
+		    if ('0' === data.state) {
+		    	alert('Reservation request failed because of time confilicts.');
+		    } else if ('1' == data.state) {
+		    	// reset
+		    	detail_reset();
+		    	alert('Reservation request succeeded. Remember to check your email.');
+		    }
+
+		    // reload db events into calendar
+		    dbEvents = data.data;
+		    paste_events(data.data);
+
 	    },
 	    error: function(err) {
 	    	isNetworkError = true;
@@ -262,12 +295,19 @@ function detail_submit(){
 	});
 }
 
-function detail_reset(){
-	isExist = false;
-
-	// clear the event from the calendar
-	$("#calendar").fullCalendar('removeEvents', eventData.id);
-
-	// clear reservation detail and hide
-	$("#reservation_detail").hide();
+function fetchDBEvents(){
+	// perhaps should be pulled
+	$.ajax({
+	    type: "GET",
+	    url: "/calendar/pulling/"+calObj.calID,
+	    dataType: "json",
+	    success: function(data) {
+		    dbEvents = data.data;
+		    paste_events(data.data);
+	    },
+	    error: function(err) {
+	    	isNetworkError = true;
+	        console.log(err);
+	    }
+	});
 }

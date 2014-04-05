@@ -30,8 +30,8 @@ app.set('views','templates');
 app.use(express.static('public'));
 app.use(express.bodyParser());
 
-function createNewRoom(response){
-	var id = generateIdentifier();
+function createNewCalendar(response){
+	var id = 'cal-'+generateIdentifier();
 
 	conn.query('SELECT * FROM rooms WHERE room=$1;', [id], function(error, result){
     	if (null != error){
@@ -77,7 +77,7 @@ app.get('/calendar/:calID', function(request,response){
 });
 
 function createNewResv(response, detail){
-	var id = generateIdentifier();
+	var id = 'resv-'+generateIdentifier();
 
 	conn.query('SELECT * FROM resvTable WHERE resvID=$1;', [id], function(error, result){
     	if (null != error){
@@ -98,7 +98,9 @@ function createNewResv(response, detail){
 				}
 
 				console.log('* CREATE new reservation: '.red, id.green);
-				response.json({'state':1});
+				var respObj = new Object();
+				respObj.state = '1';
+				sendReservations(response, respObj, detail[1]);
 			});
 		}
 	});
@@ -122,7 +124,9 @@ app.post('/calendar/submit', function(request, response){
 
 			if (0 !== result.rowCount){
 				// find a confilict, ask client to reserve again
-				response.json({'state':0});
+				var respObj = new Object();
+				respObj.state = '0';
+				sendReservations(response, respObj, detail[0]);
 				return;
 			}
 
@@ -131,30 +135,48 @@ app.post('/calendar/submit', function(request, response){
 		});
 });
 
-// pulling
-app.get('/calendar/pulling/:room/:lastMsg',function(request,response){
-	console.log('- Pulling received:', request.method.cyan, request.url.underline);
-
-	conn.query('SELECT id,user,nickname,body,time FROM messages WHERE room = $1 AND id > $2;', 
-				[request.params.room, parseInt(request.params.lastMsg)],
+function sendReservations(response, respObj, calID){
+	conn.query('SELECT forWhat,startTime,endTime FROM resvTable WHERE calID = $1;', 
+				[calID],
 				function(error,result){
-					// the last message is the current message
 					if (null !== error){
 						console.log(error);
-					} else 
-						response.json(result.rows);
+					} else {
+						respObj.data = result.rows;
+						response.json(respObj);
+					}
 			});
+}
+
+// pulling
+app.get('/calendar/pulling/:calID',function(request,response){
+	console.log('- Pulling received:', request.method.cyan, request.url.underline);
+
+	var respObj = new Object();
+	sendReservations(response, respObj, request.params.calID);
 });
 
 app.get('/search/:what', function(request, response){
-	var search = request.params.what;
-	if (search.length);
+	var search = request.params.what.trim();
+
+	if (10 === search.length && 'cal-' === search.substr(0,3)){
+		// search by calendar ID
+		app.redirect('/calendar/'+search);
+		return;
+	}
+
+	if (5 < search.length && 
+		('http:' === search.substr(0,4) || 'https:' === search.substr(0,5))){
+		// create new calendar
+	}
+
+	// search by owner name
+
 });
 
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	var str = 'HOT';
 	response.render('index-template.html');
 });
 
