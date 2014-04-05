@@ -3,6 +3,9 @@ var eventData = null;
 var dbEvents = [];
 
 $(document).ready(function() {
+	// refetch outer events and db events in 1 minute
+	setInterval(refetch, 60000);
+
 	$('#calendar').fullCalendar('today');
 		
 	$('#calendar').fullCalendar({
@@ -243,6 +246,8 @@ function detail_reset(){
 }
 
 function paste_events(events){
+	// could be more efficient, just change those modified
+
 	$("#calendar").fullCalendar('removeEvents', 'dbEvents');
 
 	var i;
@@ -274,18 +279,20 @@ function detail_submit(){
 	    data: resvObj,
 	    dataType: "json",
 	    success: function(data) {
-		    console.log(data);
+	    	// db events are pigpacked
+	    	
 		    if ('0' === data.state) {
 		    	alert('Reservation request failed because of time confilicts.');
 		    } else if ('1' == data.state) {
-		    	// reset
-		    	detail_reset();
 		    	alert('Reservation request succeeded. Remember to check your email.');
 		    }
 
+			// reset
+	    	detail_reset();
+
 		    // reload db events into calendar
 		    dbEvents = data.data;
-		    paste_events(data.data);
+		    paste_events(dbEvents);
 
 	    },
 	    error: function(err) {
@@ -296,18 +303,22 @@ function detail_submit(){
 }
 
 function fetchDBEvents(){
-	// perhaps should be pulled
 	$.ajax({
 	    type: "GET",
 	    url: "/calendar/pulling/"+calObj.calID,
 	    dataType: "json",
 	    success: function(data) {
 		    dbEvents = data.data;
-		    paste_events(data.data);
+		    paste_events(dbEvents);
 	    },
 	    error: function(err) {
 	    	isNetworkError = true;
 	        console.log(err);
 	    }
 	});
+}
+
+function refetch(){
+	$('#calendar').fullCalendar('refetchEvents');
+	fetchDBEvents();
 }

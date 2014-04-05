@@ -1289,18 +1289,14 @@ function EventManager(options) { // assumed to be a calendar
 		rangeEnd = end;
 		cache = [];
 
-		// CUSTOMIZE: 
-		// should use call back or allow it to be stale
-		// how could we deal with network error ?
-		outerEvents = [];
+		// CUSTOMIZE: get a new batch of outer events
+		// store it in a temp buffer first
+		tempEvents = [];
 		sourcesBarrier = sources.length;
 		
 
 		var fetchID = ++currentFetchID;
 		var len = sources.length;
-
-		// CUSTOMIZE
-		console.log(sources);
 
 		pendingSourceCnt = len;
 		for (var i=0; i<len; i++) {
@@ -1320,7 +1316,7 @@ function EventManager(options) { // assumed to be a calendar
 							cache.push(event);
 
 							// CUSTOMIZE: record outbound event
-							outerEvents.push(event);
+							tempEvents.push(event);
 						}
 					}
 				}
@@ -1332,9 +1328,11 @@ function EventManager(options) { // assumed to be a calendar
 
 				// CUSTOMIZE: this source is handled
 				sourcesBarrier--;
-				if (0 === sourcesBarrier)
+				// all sources handled, it's safe to update the outer buffer
+				if (0 === sourcesBarrier){
+					outerEvents = tempEvents;
 					console.log("all sources contacted");
-
+				}
 			}
 		});
 	}

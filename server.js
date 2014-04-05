@@ -157,21 +157,22 @@ app.get('/calendar/pulling/:calID',function(request,response){
 });
 
 app.get('/search/:what', function(request, response){
+	console.log('- Search received:', request.method.cyan, request.url.underline);
+
 	var search = request.params.what.trim();
 
-	if (10 === search.length && 'cal-' === search.substr(0,3)){
+	if (10 === search.length && 'cal-' === search.substr(0,4)){
 		// search by calendar ID
-		app.redirect('/calendar/'+search);
+		response.redirect('/calendar/'+search);
 		return;
 	}
 
 	if (5 < search.length && 
-		('http:' === search.substr(0,4) || 'https:' === search.substr(0,5))){
+		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
 		// create new calendar
 	}
 
 	// search by owner name
-
 });
 
 // by default

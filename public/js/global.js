@@ -1,4 +1,4 @@
-var outerEvents = [];
 var tempEvents = [];
-var isNetworkError = false;
+var outerEvents = [];
 var sourcesBarrier = 0;
+var isNetworkError = false;
