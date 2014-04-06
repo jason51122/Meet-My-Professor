@@ -209,6 +209,33 @@ app.get('/search/:what', function(request, response){
 		// search by owner name
 });
 
+//get the search results
+app.get('/searchResult', function(request, response){
+	console.log("getting here");
+	// response.render('searchresult.html');
+	var array = [];
+	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
+	search_results.on('row', function(row){
+		array.push({
+			"name" : row.name, 
+			"email": row.email,
+			"desc" : row.calDesp
+
+		});
+		
+		// array.push(row.name);
+		// array.push(row.email);
+		// array.push(row.calDesp);
+	})
+	.on('end', function() {
+		// response.json(array);
+		console.log(array);
+		response.render('searchresult.html', {results: array});
+		// response.render('searchresults.html', array[0]);
+	});
+
+});
+
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
