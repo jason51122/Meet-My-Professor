@@ -1,3 +1,6 @@
+DROP TABLE calTable;
+DROP TABLE resvTable;
+
 CREATE TABLE calTable (
     calID TEXT PRIMARY KEY,
     calLink TEXT,
@@ -27,8 +30,8 @@ INSERT INTO calTable VALUES(
     'The first calendar',
     'Zhixiong Chen',
     'zhixiong_chen@brown.edu',
-    0,
-    0,
-    0,
-    0
+    1420002000,
+    '09:00:00',
+    '18:00:00',
+    10
 );
