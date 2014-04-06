@@ -2,6 +2,7 @@ var express = require('express');
 var anyDB = require('any-db');
 var colors = require('colors');
 var engines = require('consolidate');
+var emailer = require('./lib/emailer');
 
 // db connection
 var dbstr = "mmp";
