@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title>{{calID}}</title>
+
+	<link rel='stylesheet' type='text/css' href='/css/fullcalendar.css' />
+	<link rel="stylesheet" href="/css/professor-template.css" type="text/css" />
+
+	<script type="text/javascript" src='/js/global.js'></script>
+	<script type='text/javascript' src='/js/jquery.min.js'></script>
+	<script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
+	<script type="text/javascript" src='/js/moment.min.js'></script>
+	<script type="text/javascript" src='/js/professor-template.js'></script>
+</head>
+
+<body>
+	<div id="banner">
+		<div id="theme">
+		</div>
+
+		<div id="navbar">
+			<div id="logo_wrapper">
+				<a id="logo" href="/"></a>
+			</div>
+        
+			<ul>
+				<li id="nav_home">
+					<a href="/">HOWTO</a>
+				</li>
+				<li id="nav_about">
+					<a href="/">ABOUT</a>
+				</li>
+				<li id="nav_contact">
+					<a href="/">CONTACT</a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+
+	<div id="content">
+		<div id="registration_wrapper">
+			<div id="registration">
+				<div class="pop_title">Register Your Calendar</div>
+
+				<div class="pop_body">
+					<div class="pop_item">
+						<div class="pop_item_name">Calendar Link </div>
+						<input class="pop_item_input" type="text" id="your_calLink" value="{{calLink}}" readonly>
+						<div class="pop_item_description" id="calLink_description">Your calendar link</div>
+					</div>
+				
+					<div class="pop_item">
+						<div class="pop_item_name">Calendar Description </div>
+						<input class="pop_item_input" type="text" id="your_calDesp" value="">
+						<div class="pop_item_description" id="calDesp_description">Your calendar description here</div>
+					</div>
+			  
+					<div class="pop_item">
+						<div class="pop_item_name">Name </div>
+						<input class="pop_item_input" type="text" id="your_name" value="">
+						<div class="pop_item_description" id="name_description">Your name here without any special characters</div>
+					</div>
+
+					<div class="pop_item">
+						<div class="pop_item_name">Email </div>
+						<input class="pop_item_input" type="text" id="your_email" value="">
+						<div class="pop_item_description" id="email_description">Your email address to receive notification</div>
+					</div>
+
+					<div class="pop_item">
+						<div class="pop_item_name">Expire Date </div>
+						<input class="pop_item_input" type="text" id="your_expireDate" value="2014-12-31">
+						<div class="pop_item_description" id="expireDate_description">Your expire date for scheduling in YYYY-MM-DD format</div>
+					</div>
+
+					<div class="pop_item">
+						<div class="pop_item_name">Start and End Time </div>
+						<input class="pop_item_input" type="text" id="start_time" value="09:00">
+						<div id="from_to"></div>
+						<input class="pop_item_input" type="text" id="end_time" value="18:00">
+						<div class="pop_item_description" id="time_description">Your start time and end time for scheduling in 24-hour HH:MM format</div>
+					</div>
+			  			  
+					<div class="pop_item">
+						<div class="pop_item_name">Interim </div>
+						<input class="pop_item_input" type="text" id="your_interim" value="10">
+						<div class="pop_item_description" id="interim_description">Your interim minutes between two meetings</div>
+					</div>
+
+					<div class="pop_item" id="btn_wrapper">
+						<input class="btn pop_btn" type="button" id="ok_btn" onclick="pop_ok()" value="OK">
+						<input class="btn pop_btn" type="button" id="cancel_btn" onclick="pop_cancel()" value="Cancel">
+					</div>
+				</div>
+            
+			</div>
+		</div>
+	</div>
+
+	<div id="footer"></div>
+
+</body>
+</html>
