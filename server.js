@@ -30,23 +30,11 @@ app.set('views','templates');
 app.use(express.static('public'));
 app.use(express.bodyParser());
 
-function validateCalLink(calLink) 
-{
-	var re = /\S+@\S+\.\S+/;
-	return re.test(calLink);
-}
-
 // create a new calendar
 app.get('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	console.log(request.params.calLink);
-	
-	var calLink = request.params.calLink;
-	if (!validateCalLink(calLink)) {
-		response.redirect('/');
-	}
-	
-	calLink = 'http://www.google.com/calendar/feeds/' + calLink + '/public/basic';
+
 	conn.query('SELECT * FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
 		if (null != error){
 			console.log(error);
@@ -76,7 +64,7 @@ function createNewCal(request, response){
 			createNewCal(request, response);
 		}
 		else {
-			conn.query('INSERT INTO calTable VALUES($1, $2, $3, $4, $5, strftime("%s", $6), $7, $8, $9);', [id, 'http://www.google.com/calendar/feeds/' + request.params.calLink + '/public/basic', request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim], function(error, result){
+			conn.query('INSERT INTO calTable VALUES($1, $2, $3, $4, $5, strftime("%s", $6), $7, $8, $9);', [id, request.params.calLink, request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim], function(error, result){
 				if (null !== error){
 					console.log(error);
 					return;
