@@ -34,7 +34,8 @@ app.use(express.bodyParser());
 app.get('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	console.log(request.params.calLink);
-
+	
+	calLink = request.params.calLink;
 	conn.query('SELECT * FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
 		if (null != error){
 			console.log(error);
@@ -227,7 +228,7 @@ app.get('/searchResult', function(request, response){
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	response.render('index-template.html');
+	response.render('index2-template.html');
 });
 
 //Visit localhost:8080
