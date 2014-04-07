@@ -37,9 +37,13 @@
     <div id = "content">
     	<p id = "title"> Search Results</h1>
     	<ul id = "results">
+            <div id = "element">
     		{{#results}}
-    			<li>{{name}}</li>
+    			<li><strong>{{name}}</strong>-{{desc}} </li>
+                <li>{{email}}</li>
+                
     		{{/results}}
+            </div>
     	</ul>
     </div>
 

@@ -179,26 +179,25 @@ app.get('/calendar/pulling/:calID',function(request,response){
 	sendReservations(response, respObj, request.params.calID);
 });
 
-app.get('/search/:what', function(request, response){
-	console.log('- Search received:', request.method.cyan, request.url.underline);
+// app.get('/search/:what', function(request, response){
+// 	console.log('- Search received:', request.method.cyan, request.url.underline);
 
-	var search = request.params.what.trim();
+// 	var search = request.params.what.trim();
 
-	if (10 === search.length && 'cal-' === search.substr(0,4)){
-		// search by calendar ID
-		response.redirect('/calendar/'+search);
-		return;
-	}
+// 	if (10 === search.length && 'cal-' === search.substr(0,4)){
+// 		// search by calendar ID
+// 		response.redirect('/calendar/'+search);
+// 		return;
+// 	}
 
-	if (5 < search.length && 
-		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
-			// create new calendar
-		}
+// 	if (5 < search.length && 
+// 		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
+// 			// create new calendar
+// 		}
 
-		// search by owner name
-});
+// 		// search by owner name
+// });
 
-//get the search results
 app.get('/searchResult', function(request, response){
 	console.log("getting here");
 	// response.render('searchresult.html');
@@ -228,7 +227,7 @@ app.get('/searchResult', function(request, response){
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	response.render('index2-template.html');
+	response.render('index1-template.html');
 });
 
 //Visit localhost:8080
