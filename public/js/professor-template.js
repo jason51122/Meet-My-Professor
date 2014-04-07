@@ -1,6 +1,81 @@
+var dbEvents = [];
+
 $(document).ready(function() {
-	$("#registration_wrapper").show();
+	$('#registration_wrapper').show();
+	// refetch outer events and db events in 1 minute
+	setInterval(refetch, 60000);
+
+	$('#calendar').fullCalendar('today');
+		
+	$('#calendar').fullCalendar({
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		defaultView: 'agendaWeek',
+		allDaySlot: true,
+		lazyFetching: false,
+		slotDuration: '00:30:00',
+		snapDuration: '00:30:00',
+		selectHelper: true,
+		selectable: false,
+		editable: false,
+		events: calObj.calLink,
+		eventColor: '#a52d23',
+		loading: function(bool) {
+			$('#loading').toggle(bool);
+		}
+	});
+	
+	if ('0' !== calObj.startTime)
+		$('#calendar').fullCalendar({
+			minTime:calObj.startTime
+		});
+
+	if ('0' !== calObj.endTime)
+		$('#calendar').fullCalendar({
+			maxTime:calObj.endTime
+		});
+
+	fetchDBEvents();
 });
+
+function paste_events(events){
+	// could be more efficient, just change those modified
+	$("#calendar").fullCalendar('removeEvents', 'dbEvents');
+
+	var i;
+	for (i = 0; i < events.length; i++){
+		var newEvent = new Object();
+		newEvent.id = 'dbEvents';
+		newEvent.title = 'Busy';
+		newEvent.start = moment.unix(events[i].startTime);
+		newEvent.end = moment.unix(events[i].endTime);
+		$('#calendar').fullCalendar('renderEvent', newEvent, true);
+	}
+}
+
+function fetchDBEvents(){
+	$.ajax({
+	    type: "GET",
+	    url: "/calendar/pulling/"+calObj.calID,
+	    dataType: "json",
+	    success: function(data) {
+		    dbEvents = data.data;
+		    paste_events(dbEvents);
+	    },
+	    error: function(err) {
+	    	isNetworkError = true;
+	        console.log(err);
+	    }
+	});
+}
+
+function refetch(){
+	$('#calendar').fullCalendar('refetchEvents');
+	fetchDBEvents();
+}
 
 function pop_ok(){
 	// check description

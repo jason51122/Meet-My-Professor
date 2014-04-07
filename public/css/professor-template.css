@@ -142,6 +142,7 @@ li a:active{
 	margin-top: 5px;
 	padding: 3px;
 	height: 18px;
+	text-align: left;
 	border-bottom: solid rgb(150, 150, 150);
 }
 
@@ -243,7 +244,7 @@ li a:active{
 	font-size: 15pt;
 	font-weight: bold;
 
-	text-align: center;
+	text-align: left;
 }
 
 .pop_body {
@@ -282,7 +283,7 @@ li a:active{
 	width: 400px;
 	color: white;
 	font-size: inherit;
-	text-align: center;
+	text-align: left;
 	float: right;
 }
 
@@ -306,13 +307,14 @@ li a:active{
 #start_time {
 	width: 125px;
 	float: left;
-	text-align: center;
+	text-align: left;
+	margin-left: 13px;
 }
 
 #end_time {
 	width: 125px;
 	float: right;
-	text-align: center;
+	text-align: left;
 }
 
 #from_to{
