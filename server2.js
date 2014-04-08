@@ -7,6 +7,10 @@ var engines = require('consolidate');
 var dbstr = "mmp";
 var conn = anyDB.createConnection('sqlite3://'+dbstr+'.db');
 
+// lib for making reservation
+var resv = require('./lib/resv');
+resv.setConn(conn);
+
 var ndigits = 6;
 var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 // generate identifier
@@ -113,91 +117,18 @@ app.get('/calendar/:calID', function(request,response){
 	});
 });
 
-function createNewResv(response, detail){
-	var id = 'resv-'+generateIdentifier();
-
-	conn.query('SELECT * FROM resvTable WHERE resvID=$1;', [id], function(error, result){
-		if (null != error){
-			console.log(error);
-			response.send(error);
-			return;
-		}
-    	
-		if (0 !== result.rowCount)
-		createNewResv(response, detail);
-		else {
-			detail.unshift(id);
-
-			// send email to both the reserver and the calendar owner
-			// check the accessibility of the emails
-
-			conn.query('INSERT INTO resvTable VALUES($1,$2,$3,$4,$5,$6,$7);', detail.slice(0,6), function(error, result){
-				if (null !== error){
-					console.log(error);
-					response.send(error);
-					return;
-				}
-
-				console.log('* CREATE new reservation: '.red, id.green);
-				var respObj = new Object();
-				respObj.state = '1';
-				sendReservations(response, respObj, detail[1]);
-			});
-		}
-	});
-}
-
 // post submit requests
 app.post('/calendar/submit', function(request, response){
 	console.log('- Submit received:', request.method.cyan, request.url.underline);
-	var detail = request.body.detail;
-
-	// there are still some potential synchronization issues
-	// use a event queue for each calendar might be the best practice
-
-	// check some confilicts in the database
-	conn.query('SELECT * FROM resvTable WHERE calID = $1 AND (($2 >= startTime AND $2 <= endTime)'
-	+' OR ($3 >= startTime AND $3 <= endTime) OR ($2 < startTime AND $3 > endTime)) LIMIT 1;',
-	[detail[0],detail[4],detail[5]], function(error, result){
-
-		if (null != error){
-			console.log(error);
-			response.send(error);
-			return;
-		}
-
-		if (0 !== result.rowCount){
-			// find a confilict, ask client to reserve again
-			var respObj = new Object();
-			respObj.state = '0';
-			sendReservations(response, respObj, detail[0]);
-			return;
-		}
-
-		// so far so good
-		createNewResv(response, detail);
-	});
+	resv.submitHandler(request, response, conn);
 });
-
-function sendReservations(response, respObj, calID){
-	conn.query('SELECT startTime,endTime FROM resvTable WHERE calID = $1;', 
-	[calID],
-	function(error,result){
-		if (null !== error){
-			console.log(error);
-		} else {
-			respObj.data = result.rows;
-			response.json(respObj);
-		}
-	});
-}
 
 // pulling
 app.get('/calendar/pulling/:calID',function(request,response){
 	console.log('- Pulling received:', request.method.cyan, request.url.underline);
 
 	var respObj = new Object();
-	sendReservations(response, respObj, request.params.calID);
+	resv.sendReservations(response, respObj, request.params.calID);
 });
 
 app.get('/search/:what', function(request, response){

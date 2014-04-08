@@ -270,7 +270,8 @@ function detail_submit(){
 		eventData.email,
 		eventData.title,
 		eventData.start.unix(),
-		eventData.end.unix()
+		eventData.end.unix(),
+		calObj.email
 	];
 
 	$.ajax({
