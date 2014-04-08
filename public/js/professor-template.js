@@ -1,44 +1,42 @@
 var dbEvents = [];
+var old = [];
 
 $(document).ready(function() {
-	$('#registration_wrapper').show();
-	// refetch outer events and db events in 1 minute
-	setInterval(refetch, 60000);
+	url = document.URL;
+	if (url.indexOf("create") != -1) {
+		$('#registration_wrapper').show();
+	}
+	if (url.indexOf("update") != -1) {
+		// refetch outer events and db events in 1 minute
+		setInterval(refetch, 60000);
 
-	$('#calendar').fullCalendar('today');
+		$('#calendar').fullCalendar('today');
 		
-	$('#calendar').fullCalendar({
-		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
-		defaultView: 'agendaWeek',
-		allDaySlot: true,
-		lazyFetching: false,
-		slotDuration: '00:30:00',
-		snapDuration: '00:30:00',
-		selectHelper: true,
-		selectable: false,
-		editable: false,
-		events: calObj.calLink,
-		eventColor: '#a52d23',
-		loading: function(bool) {
-			$('#loading').toggle(bool);
-		}
-	});
-	
-	if ('0' !== calObj.startTime)
 		$('#calendar').fullCalendar({
-			minTime:calObj.startTime
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			defaultView: 'agendaWeek',
+			allDaySlot: true,
+			lazyFetching: false,
+			minTime: calObj.startTime + ':00',
+			maxTime: calObj.endTime + ':00',
+			slotDuration: '00:30:00',
+			snapDuration: '00:30:00',
+			selectHelper: false,
+			selectable: false,
+			editable: false,
+			events: calObj.calLink,
+			eventColor: '#a52d23',
+			loading: function(bool) {
+				$('#loading').toggle(bool);
+			}
 		});
 
-	if ('0' !== calObj.endTime)
-		$('#calendar').fullCalendar({
-			maxTime:calObj.endTime
-		});
-
-	fetchDBEvents();
+		fetchDBEvents();
+	}
 });
 
 function paste_events(events){
@@ -75,6 +73,17 @@ function fetchDBEvents(){
 function refetch(){
 	$('#calendar').fullCalendar('refetchEvents');
 	fetchDBEvents();
+}
+
+function settings(){
+	$('#registration_wrapper').show();
+	old[0] = $("#your_calDesp").val().trim();
+	old[1] = $("#your_name").val().trim();
+	old[2] = $("#your_email").val().trim();
+	old[3] = $("#your_expireDate").val().trim();
+	old[4] = $("#start_time").val().trim();
+	old[5] = $("#end_time").val().trim();
+	old[6] = $("#your_interim").val().trim();
 }
 
 function pop_ok(){
@@ -155,16 +164,27 @@ function pop_ok(){
 		return;
 	}
 	$("#interim_description").css("color","rgb(230, 230, 230)");
-
-	var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, expireDate: str4, startTime: str5 + ':00', endTime: str6 + ':00', interim: str7 } );
-	posting.done(function( data ) {
-		alert( "New calendar " + data + " has been successfully created. An email has been sent to " + str3 + ".");
-		document.location.href = "/";
-	});
+	
+	if (old[0] !== str1 || old[1] !== str2 || old[2] !== str3 || old[3] !== str4 || old[4] !== str5 || old[5] !== str6 || old[6] !== str7) {
+		var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, expireDate: str4, startTime: str5, endTime: str6, interim: str7 } );
+		posting.done(function( data ) {
+			alert(data + " An email has been sent to " + str3 + ".");
+			var encoded = encodeURIComponent(calObj.calLink);
+			window.location.href = '/update/' + encoded;
+		});
+	}
+	else {
+		$('#registration_wrapper').hide();
+	}
  }
 
 function pop_cancel(){
-	window.location.href = '/';
+	if (url.indexOf("create") != -1) {
+		window.location.href = '/';
+	}
+	if (url.indexOf("update") != -1) {
+		$('#registration_wrapper').hide();
+	}	
 }
 
 function validateTime(time){

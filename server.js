@@ -70,9 +70,9 @@ function createNewCal(request, response){
 					console.log(error);
 					return;
 				}
-
+				
 				console.log('Create new calendar: '.red, id.green);
-				response.send(id);
+				response.send('Calendar ' + id + ' has been created.');
 			});
 		}
 	});
@@ -81,6 +81,59 @@ function createNewCal(request, response){
 app.post('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	createNewCal(request, response);
+});
+
+app.get('/update/:calLink',function(request,response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
+	
+	calLink = request.params.calLink;
+	conn.query('SELECT calID, calLink, calDesp, name, email, date(expireDate,"unixepoch") AS expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+		if (null != error){
+			console.log(error);
+			response.send(error);
+		}
+		if (0 !== result.rowCount) {
+			console.log(result.rows[0])
+			response.render('professor-template.html', {
+				calID: result.rows[0].calID,
+				calLink: result.rows[0].calLink,
+				calDesp: result.rows[0].calDesp,
+				name: result.rows[0].name,
+				email: result.rows[0].email,
+				expireDate: result.rows[0].expireDate,
+				startTime: result.rows[0].startTime,
+				endTime: result.rows[0].endTime,
+				interim: result.rows[0].interim
+			});
+		}
+		else {
+			response.redirect('/');
+		}
+	});
+});
+
+app.post('/update/:calLink',function(request,response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
+	
+	calLink = request.params.calLink;
+	
+	conn.query('UPDATE calTable SET calDesp=$1, name=$2, email=$3, expireDate=strftime("%s", $4), startTime=$5, endTime=$6, interim=$7 WHERE calLink=$8;', [request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim, calLink], function(error){
+		if (null != error){
+			console.log(error);
+			return;
+		}
+		else {
+			conn.query('SELECT * FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+				if (null !== error){
+					console.log(error);
+					return;
+				}
+				console.log(result.rows[0]);
+				console.log('Update calendar: '.red, result.rows[0].calID.green);
+				response.send('Calendar ' + result.rows[0].calID + ' has been updated.');
+			});
+		}
+	});
 });
 
 app.get('/calendar/:calID', function(request,response){

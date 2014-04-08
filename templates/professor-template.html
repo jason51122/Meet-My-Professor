@@ -58,37 +58,26 @@
 			<div class="item">
 				<div class="item_name">Calendar ID </div>
 				<div class="item_static" id="static_calLink">{{calID}} </div>
-				<div class="item_description">Your calendar ID </div>
-			</div>
-			
-			<div class="item">
-				<div class="item_name">Calendar Link </div>
-				<div class="item_static" id="static_calLink">{{calLink}} </div>
-				<div class="item_description">Your calendar link </div>
 			</div>
 				
 			<div class="item">
 				<div class="item_name">Calendar Description </div>
 				<div class="item_static" id="static_calDesp">{{calDesp}} </div>
-				<div class="item_description">Your calendar description </div>
 			</div>
 				 
 			<div class="item">
 				<div class="item_name">Name </div>
 				<div class="item_static" id="static_name">{{name}} </div>
-				<div class="item_description">Your name </div>
 			</div>
 
 			<div class="item">
 				<div class="item_name">Email </div>
 				<div class="item_static" id="static_email" value="">{{email}} </div>
-				<div class="item_description">Your email address to receive notification </div>
 			</div>
 
 			<div class="item">
 				<div class="item_name">Expire Date </div>
 				<div class="item_static" id="static_expireDate">{{expireDate}} </div>
-				<div class="item_description">Your expire date for scheduling </div>
 			</div>
 
 			<div class="item">
@@ -96,17 +85,15 @@
 				<div class="item_static" id="start_time_static">{{startTime}} </div>
 				<div id="from_to_static"> </div>
 				<div class="item_static" id="end_time_static" value="">{{endTime}} </div>
-				<div class="item_description">Your start time and end time for scheduling </div>
 			</div>
 			
 			<div class="item">
 				<div class="item_name">Interim </div>
 				<div class="item_static" id="static_interim">{{interim}} </div>
-				<div class="item_description">Your interim minutes between two meetings </div>
 			</div>
 				
 			<div class="item" id="detail_btn_wrapper">
-				<input class="btn detail_btn" type="button" id="submit_btn" onclick="detail_submit()" value="Settings">
+				<input class="btn detail_btn" type="button" id="submit_btn" onclick="settings()" value="Settings">
 			</div>
 		</div>
       
@@ -128,39 +115,39 @@
 				
 				<div class="pop_item">
 					<div class="pop_item_name">Calendar Description </div>
-					<input class="pop_item_input" type="text" id="your_calDesp" value="">
+					<input class="pop_item_input" type="text" id="your_calDesp" value="{{calDesp}}">
 					<div class="pop_item_description" id="calDesp_description">Your calendar description </div>
 				</div>
 			  
 				<div class="pop_item">
 					<div class="pop_item_name">Name </div>
-					<input class="pop_item_input" type="text" id="your_name" value="">
+					<input class="pop_item_input" type="text" id="your_name" value="{{name}}">
 					<div class="pop_item_description" id="name_description">Your name without any special characters </div>
 				</div>
 
 				<div class="pop_item">
 					<div class="pop_item_name">Email </div>
-					<input class="pop_item_input" type="text" id="your_email" value="">
+					<input class="pop_item_input" type="text" id="your_email" value="{{email}}">
 					<div class="pop_item_description" id="email_description">Your email address to receive notification </div>
 				</div>
 
 				<div class="pop_item">
 					<div class="pop_item_name">Expire Date </div>
-					<input class="pop_item_input" type="text" id="your_expireDate" value="2014-12-31">
+					<input class="pop_item_input" type="text" id="your_expireDate" value="{{expireDate}}">
 					<div class="pop_item_description" id="expireDate_description">Your expire date for scheduling in YYYY-MM-DD format </div>
 				</div>
 
 				<div class="pop_item">
 					<div class="pop_item_name">Start and End Time </div>
-					<input class="pop_item_input" type="text" id="start_time" value="09:00">
+					<input class="pop_item_input" type="text" id="start_time" value="{{startTime}}">
 					<div id="from_to"></div>
-					<input class="pop_item_input" type="text" id="end_time" value="18:00">
+					<input class="pop_item_input" type="text" id="end_time" value="{{endTime}}">
 					<div class="pop_item_description" id="time_description">Your start time and end time for scheduling in 24-hour HH:MM format </div>
 				</div>
 			  			  
 				<div class="pop_item">
 					<div class="pop_item_name">Interim </div>
-					<input class="pop_item_input" type="text" id="your_interim" value="10">
+					<input class="pop_item_input" type="text" id="your_interim" value="{{interim}}">
 					<div class="pop_item_description" id="interim_description">Your interim minutes between two meetings </div>
 				</div>
 
