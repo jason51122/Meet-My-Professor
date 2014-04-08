@@ -9,7 +9,7 @@ $(document).ready(function() {
 	if (url.indexOf("update") != -1) {
 		// refetch outer events and db events in 1 minute
 		setInterval(refetch, 60000);
-
+		
 		$('#calendar').fullCalendar('today');
 		
 		$('#calendar').fullCalendar({

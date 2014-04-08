@@ -8,6 +8,8 @@
 <script src='../lib/jquery.min.js'></script>
 <script src='../lib/jquery-ui.custom.min.js'></script>
 <script src='../fullcalendar/fullcalendar.min.js'></script>
+<script src='../fullcalendar/gcal.js'></script>
+
 <script>
 
 	$(document).ready(function() {
@@ -41,12 +43,7 @@
 				defaultDate: '2014-01-12',
 				timezone: currentTimezone,
 				editable: true,
-				events: {
-					url: 'php/get-events.php',
-					error: function() {
-						$('#script-warning').show();
-					}
-				},
+				events: "https://www.google.com/calendar/feeds/dk28qvj4lo0uq6tai4ul0c1ljk%40group.calendar.google.com/public/basic",
 				loading: function(bool) {
 					$('#loading').toggle(bool);
 				},
