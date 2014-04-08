@@ -16,7 +16,7 @@
 		var currentTimezone = false;
 
 		// load the list of available timezones
-		$.getJSON('php/get-timezones.php', function(timezones) {
+		$.getJSON('php/get-tz.json', function(timezones) {
 			$.each(timezones, function(i, timezone) {
 				if (timezone != 'UTC') { // UTC is already in the list
 					$('#timezone-selector').append(
