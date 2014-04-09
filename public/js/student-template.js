@@ -19,6 +19,8 @@ $(document).ready(function() {
 		timeFormat: 'HH:mm',
 		allDaySlot: true,
 		lazyFetching: false,
+		minTime: calObj.startTime + ':00',
+		maxTime: calObj.endTime + ':00',
 		slotDuration: '00:30:00',
 		snapDuration: '00:30:00',
 		selectHelper: true,
@@ -35,7 +37,9 @@ $(document).ready(function() {
 				borderColor: '#3a87ad'
 			};
 
+			pasteSuggestedTimes();
 			$("#reservation_wrapper").show();
+
 			$("#start_time").val(eventData.start.format("HH:mm"));
 			$("#end_time").val(eventData.end.format("HH:mm"));
 			$("#your_name").val('');
@@ -61,16 +65,6 @@ $(document).ready(function() {
 			$('#loading').toggle(bool);
 		}
 	});
-	
-	if ('0' !== calObj.startTime)
-		$('#calendar').fullCalendar({
-			minTime:calObj.startTime
-		});
-
-	if ('0' !== calObj.endTime)
-		$('#calendar').fullCalendar({
-			maxTime:calObj.endTime
-		});
 
 	fetchDBEvents();
 });
@@ -94,6 +88,9 @@ function time_validate(start, end){
 	var cur;
 
 	for (i = 0; i < outerEvents.length; i++){
+		if (outerEvents[i].id === eventData.id)
+			continue;
+		
 		cur = [outerEvents[i].start.format(timeformat), outerEvents[i].end.format(timeformat)];
 		if (test[0] >= cur[0] && test[0] <= cur[1])
 			return false;
@@ -332,4 +329,82 @@ function refetch(){
 function message_ok(){
 	$("#result_wrapper").hide();
 	$("#progress").show();
+}
+
+function getSuggestedTimes(){
+	var times = [];
+	var date = eventData.start.format('YYYY-MM-DD');
+
+	var i,j,item,start;
+	for (i = 0; i < outerEvents.length; i++){
+		item = outerEvents[i];
+		if (item.start.format('YYYY-MM-DD') === date){
+			start = item.start.format(timeformat);
+			for (j = 0; j < times.length; j++){
+				if (times[j] >= start)
+					break;
+			}
+
+			// avoid duplicates
+			if (times[j] !== start)
+				times.splice(j,0,start, item.end.format(timeformat));
+			
+		}
+	}
+
+	for (i = 0; i < dbEvents.length; i++){
+		item = dbEvents[i];
+		if (item.startTime.split(' ')[0] === date){
+			for (j = 0; j < times.length; j++){
+				if (times[j] >= item.startTime)
+					break;
+			}
+
+			// avoid duplicates
+			if (times[j] !== item.startTime)
+				times.splice(j,0, item.startTime, item.endTime);
+		}
+	}
+
+	// initialize start and the final end
+	start = date+' '+calObj.startTime;
+	var end = date+' '+calObj.endTime;
+
+	if (times.length === 0)
+		return [{'start': start.split(' ')[1], 'end': end.split(' ')[1]}];
+
+	var suggestedTimes = [];
+	i = 0;
+	// check a valid start
+	if (start === times[0]){
+		start = moment(times[1]).add('m',calObj.interim);
+		i = 2;
+	} else
+		start = moment(start);
+
+	var curEnd;
+	while (i < times.length){
+		curEnd = moment(times[i]).add('m',-calObj.interim);
+		if (curEnd.isAfter(start))
+			suggestedTimes.push({'start': start.format('HH:mm'), 'end': curEnd.format('HH:mm')});
+		start = moment(times[i+1]).add('m',calObj.interim);
+		i += 2;
+	}
+	
+	// check remaining end
+	if (end !== times[times.length-1]){
+		end = moment(end);
+		if (end.isAfter(start))
+			suggestedTimes.push({'start': start.format('HH:mm'), 'end': end.format('HH:mm')});
+	}
+	return suggestedTimes;
+}
+
+function pasteSuggestedTimes(){
+	var times = getSuggestedTimes();
+	$('#suggested_list').html('');
+	for (var i = 0; i < times.length; i++){
+		$('#suggested_list').append("<li class='suggested_item'>"
+			+times[i].start+" - "+times[i].end+"</li>");
+	}
 }

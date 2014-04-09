@@ -128,7 +128,7 @@ li a:active{
 }
 
 .item {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	clear: both;
 }
 
@@ -226,9 +226,7 @@ li a:active{
 
 #reservation {
 	width: 650px;
-	min-height: 325px;
-
-	padding: 20px;
+	padding: 20px 45px;
 
 	margin: auto;
 	margin-top: 100px;
@@ -267,7 +265,7 @@ li a:active{
 	font-weight: bold;
 	width: 50px;
 	float: left;
-	text-align: right;
+	text-align: left;
 	padding-top: 10px;
 }
 
@@ -305,13 +303,14 @@ li a:active{
 }
 
 #start_time {
-	width: 125px;
+	width: 122px;
 	float: left;
 	text-align: center;
+	margin-left: 15px;
 }
 
 #end_time {
-	width: 125px;
+	width: 122px;
 	float: right;
 	text-align: center;
 }
@@ -370,8 +369,8 @@ li a:active{
 	margin-bottom: 5px;
 }
 
-#btn_wrapper {
-	
+#hr {
+	clear: both;
 }
 
 #ok_btn {
