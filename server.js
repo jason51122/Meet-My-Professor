@@ -30,23 +30,12 @@ app.set('views','templates');
 app.use(express.static('public'));
 app.use(express.bodyParser());
 
-function validateCalLink(calLink) 
-{
-	var re = /\S+@\S+\.\S+/;
-	return re.test(calLink);
-}
-
 // create a new calendar
 app.get('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	console.log(request.params.calLink);
 	
-	var calLink = request.params.calLink;
-	if (!validateCalLink(calLink)) {
-		response.redirect('/');
-	}
-	
-	calLink = 'http://www.google.com/calendar/feeds/' + calLink + '/public/basic';
+	calLink = request.params.calLink;
 	conn.query('SELECT * FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
 		if (null != error){
 			console.log(error);
@@ -76,17 +65,21 @@ function createNewCal(request, response){
 			createNewCal(request, response);
 		}
 		else {
+<<<<<<< HEAD
 			conn.query('INSERT INTO calTable VALUES($1, $2, $3, $4, $5, strftime("%s", $6), $7, $8, $9);', 
 				[id, 'http://www.google.com/calendar/feeds/' + request.params.calLink + '/public/basic', 
 				request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, 
 				request.body.startTime, request.body.endTime, request.body.interim], function(error, result){
+=======
+			conn.query('INSERT INTO calTable VALUES($1, $2, $3, $4, $5, strftime("%s", $6), $7, $8, $9);', [id, request.params.calLink, request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim], function(error, result){
+>>>>>>> 59929d948c05c7f062e7a7ac0a6f742bcbd80354
 				if (null !== error){
 					console.log(error);
 					return;
 				}
-
+				
 				console.log('Create new calendar: '.red, id.green);
-				response.send(id);
+				response.send('Calendar ' + id + ' has been created.');
 			});
 		}
 	});
@@ -95,6 +88,59 @@ function createNewCal(request, response){
 app.post('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	createNewCal(request, response);
+});
+
+app.get('/update/:calLink',function(request,response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
+	
+	calLink = request.params.calLink;
+	conn.query('SELECT calID, calLink, calDesp, name, email, date(expireDate,"unixepoch") AS expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+		if (null != error){
+			console.log(error);
+			response.send(error);
+		}
+		if (0 !== result.rowCount) {
+			console.log(result.rows[0])
+			response.render('professor-template.html', {
+				calID: result.rows[0].calID,
+				calLink: result.rows[0].calLink,
+				calDesp: result.rows[0].calDesp,
+				name: result.rows[0].name,
+				email: result.rows[0].email,
+				expireDate: result.rows[0].expireDate,
+				startTime: result.rows[0].startTime,
+				endTime: result.rows[0].endTime,
+				interim: result.rows[0].interim
+			});
+		}
+		else {
+			response.redirect('/');
+		}
+	});
+});
+
+app.post('/update/:calLink',function(request,response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
+	
+	calLink = request.params.calLink;
+	
+	conn.query('UPDATE calTable SET calDesp=$1, name=$2, email=$3, expireDate=strftime("%s", $4), startTime=$5, endTime=$6, interim=$7 WHERE calLink=$8;', [request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim, calLink], function(error){
+		if (null != error){
+			console.log(error);
+			return;
+		}
+		else {
+			conn.query('SELECT * FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+				if (null !== error){
+					console.log(error);
+					return;
+				}
+				console.log(result.rows[0]);
+				console.log('Update calendar: '.red, result.rows[0].calID.green);
+				response.send('Calendar ' + result.rows[0].calID + ' has been updated.');
+			});
+		}
+	});
 });
 
 app.get('/calendar/:calID', function(request,response){
@@ -200,29 +246,55 @@ app.get('/calendar/pulling/:calID',function(request,response){
 	sendReservations(response, respObj, request.params.calID);
 });
 
-app.get('/search/:what', function(request, response){
-	console.log('- Search received:', request.method.cyan, request.url.underline);
+// app.get('/search/:what', function(request, response){
+// 	console.log('- Search received:', request.method.cyan, request.url.underline);
 
-	var search = request.params.what.trim();
+// 	var search = request.params.what.trim();
 
-	if (10 === search.length && 'cal-' === search.substr(0,4)){
-		// search by calendar ID
-		response.redirect('/calendar/'+search);
-		return;
-	}
+// 	if (10 === search.length && 'cal-' === search.substr(0,4)){
+// 		// search by calendar ID
+// 		response.redirect('/calendar/'+search);
+// 		return;
+// 	}
 
-	if (5 < search.length && 
-		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
-			// create new calendar
-		}
+// 	if (5 < search.length && 
+// 		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
+// 			// create new calendar
+// 		}
 
-		// search by owner name
+// 		// search by owner name
+// });
+
+app.get('/searchResult', function(request, response){
+	console.log("getting here");
+	// response.render('searchresult.html');
+	var array = [];
+	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
+	search_results.on('row', function(row){
+		array.push({
+			"name" : row.name, 
+			"email": row.email,
+			"desc" : row.calDesp
+
+		});
+		
+		// array.push(row.name);
+		// array.push(row.email);
+		// array.push(row.calDesp);
+	})
+	.on('end', function() {
+		// response.json(array);
+		console.log(array);
+		response.render('searchresult.html', {results: array});
+		// response.render('searchresults.html', array[0]);
+	});
+
 });
 
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	response.render('index-template.html');
+	response.render('index1-template.html');
 });
 
 //Visit localhost:8080

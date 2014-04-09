@@ -15,10 +15,10 @@
       calObj.calDesp = '{{calDesp}}';
       calObj.name = '{{name}}';
       calObj.email = '{{email}}';
-      calObj.expireDate = {{expireDate}};
+      calObj.expireDate = '{{expireDate}}';
       calObj.startTime = '{{startTime}}';
       calObj.endTime = '{{endTime}}';
-      calObj.interim = {{interim}};
+      calObj.interim = '{{interim}}';
     </script>
     <script type='text/javascript' src='/js/jquery.min.js'></script>
     <script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
@@ -158,7 +158,14 @@
         </div>
     </div>
 
-    <div id="footer"></div>
+    <div id="result_wrapper">
+      <div id="result">
+         <img id="progress" src='/img/loading.gif'></img>
+        <div id="message"></div>
+        <input class="btn detail_btn" type="button" id="message_btn" onclick="message_ok()" value="OK">
+      </div>
+    </div>
 
+    <div id="footer"></div>
   </body>
 </html>

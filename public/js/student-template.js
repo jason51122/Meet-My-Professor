@@ -1,6 +1,7 @@
 var isExist = false; 
 var eventData = null;
 var dbEvents = [];
+var timeformat = 'YYYY-MM-DD HH:mm';
 
 $(document).ready(function() {
 	// refetch outer events and db events in 1 minute
@@ -15,6 +16,7 @@ $(document).ready(function() {
 			right: 'month,agendaWeek,agendaDay'
 		},
 		defaultView: 'agendaWeek',
+		timeFormat: 'HH:mm',
 		allDaySlot: true,
 		lazyFetching: false,
 		slotDuration: '00:30:00',
@@ -88,11 +90,11 @@ function format_checker(time){
 
 function time_validate(start, end){
 	var i;
-	var test = [start.unix(), end.unix()];
+	var test = [start.format(timeformat), end.format(timeformat)];
 	var cur;
 
 	for (i = 0; i < outerEvents.length; i++){
-		cur = [outerEvents[i].start.unix(), outerEvents[i].end.unix()];
+		cur = [outerEvents[i].start.format(timeformat), outerEvents[i].end.format(timeformat)];
 		if (test[0] >= cur[0] && test[0] <= cur[1])
 			return false;
 		if (test[1] >= cur[0] && test[1] <= cur[1])
@@ -255,13 +257,15 @@ function paste_events(events){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
 		newEvent.title = 'Busy';
-		newEvent.start = moment.unix(events[i].startTime);
-		newEvent.end = moment.unix(events[i].endTime);
+		newEvent.start = events[i].startTime;
+		newEvent.end = events[i].endTime;
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
 	}
 }
 
 function detail_submit(){
+	$('#result_wrapper').show();
+
 	// submit the reservation detail
 	var resvObj = new Object();
 	resvObj.detail = [
@@ -269,8 +273,8 @@ function detail_submit(){
 		eventData.name,
 		eventData.email,
 		eventData.title,
-		eventData.start.unix(),
-		eventData.end.unix(),
+		eventData.start.format('YYYY-MM-DD HH:mm'),
+		eventData.end.format('YYYY-MM-DD HH:mm'),
 		calObj.email
 	];
 
@@ -280,12 +284,13 @@ function detail_submit(){
 	    data: resvObj,
 	    dataType: "json",
 	    success: function(data) {
+	    	$("#progress").hide();
+
 	    	// db events are pigpacked
-	    	
 		    if ('0' === data.state) {
-		    	alert('Reservation request failed because of time confilicts.');
+		    	$('#message').html('Reservation request failed because of time confilicts.');
 		    } else if ('1' == data.state) {
-		    	alert('Reservation request succeeded. Remember to check your email.');
+		    	$('#message').html('Reservation request succeeded. Remember to check your email.');
 		    }
 
 			// reset
@@ -322,4 +327,9 @@ function fetchDBEvents(){
 function refetch(){
 	$('#calendar').fullCalendar('refetchEvents');
 	fetchDBEvents();
+}
+
+function message_ok(){
+	$("#result_wrapper").hide();
+	$("#progress").show();
 }

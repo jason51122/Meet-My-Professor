@@ -19,19 +19,19 @@ CREATE TABLE resvTable (
 	name TEXT,
 	email TEXT,
 	forWhat TEXT,
-	startTime INTEGER,
-	endTime INTEGER,
+	startTime TEXT,
+	endTime TEXT,
 	FOREIGN KEY(calID) REFERENCES calTable(calID)
 );
 
 INSERT INTO calTable VALUES(
     'cal-000000',
-    'http://www.google.com/calendar/feeds/brownipp@gmail.com/public/basic',
+    'https://www.google.com/calendar/feeds/brownipp%40gmail.com/public/basic',
     'The first calendar',
     'Zhixiong Chen',
     'zhixiong_chen@brown.edu',
     1420002000,
-    '09:00:00',
-    '18:00:00',
+    '08:00',
+    '20:00',
     10
 );

@@ -128,7 +128,8 @@ li a:active{
 }
 
 .item {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
+	height: 55px;
 }
 
 .item_name {
@@ -142,19 +143,20 @@ li a:active{
 	margin-top: 5px;
 	padding: 3px;
 	height: 18px;
+	text-align: left;
 	border-bottom: solid rgb(150, 150, 150);
 }
 
 #start_time_static {
 	width: 110px;
 	float: left;
-	text-align: center;
+	text-align: left;
 }
 
 #end_time_static {
 	width: 110px;
 	float: right;
-	text-align: center;
+	text-align: left;
 	margin-left: 0px;
 }
 
@@ -243,7 +245,7 @@ li a:active{
 	font-size: 15pt;
 	font-weight: bold;
 
-	text-align: center;
+	text-align: left;
 }
 
 .pop_body {
@@ -282,7 +284,7 @@ li a:active{
 	width: 400px;
 	color: white;
 	font-size: inherit;
-	text-align: center;
+	text-align: left;
 	float: right;
 }
 
@@ -306,13 +308,14 @@ li a:active{
 #start_time {
 	width: 125px;
 	float: left;
-	text-align: center;
+	text-align: left;
+	margin-left: 13px;
 }
 
 #end_time {
 	width: 125px;
 	float: right;
-	text-align: center;
+	text-align: left;
 }
 
 #from_to{
