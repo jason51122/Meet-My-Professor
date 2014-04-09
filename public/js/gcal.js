@@ -46,10 +46,9 @@ function transformOptions(sourceOptions, start, end, timezone) {
 	});
 
 	return $.extend({}, sourceOptions, {
-		url: sourceOptions.url.replace(/\/basic$/, '/full') + '?alt=json-in-script&callback=?',
+		url: sourceOptions.url.replace(/\/basic$/, '/free-busy') + '?alt=json-in-script&callback=?',
 		dataType: 'jsonp',
 		data: data,
-		timezoneParam: 'ctz',
 		startParam: 'start-min',
 		endParam: 'start-max',
 		success: function(data) {
@@ -61,20 +60,14 @@ function transformOptions(sourceOptions, start, end, timezone) {
 					$.each(entry.link, function(i, link) {
 						if (link.type == 'text/html') {
 							url = link.href;
-							if (timezone && timezone != 'local') {
-								url += (url.indexOf('?') == -1 ? '?' : '&') + 'ctz=' + encodeURIComponent(timezone);
-							}
 						}
 					});
 
 					events.push({
-						id: entry.gCal$uid.value,
 						title: entry.title.$t,
 						start: entry.gd$when[0].startTime,
 						end: entry.gd$when[0].endTime,
 						url: url,
-						location: entry.gd$where[0].valueString,
-						description: entry.content.$t
 					});
 
 				});

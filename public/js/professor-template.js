@@ -28,6 +28,9 @@ $(document).ready(function() {
 			selectHelper: false,
 			selectable: false,
 			editable: false,
+			eventClick: function(event) {
+				return false;
+			},
 			events: calObj.calLink,
 			eventColor: '#a52d23',
 			loading: function(bool) {
@@ -47,7 +50,7 @@ function paste_events(events){
 	for (i = 0; i < events.length; i++){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
-		newEvent.title = 'Busy';
+		newEvent.title = 'busy';
 		newEvent.start = moment.unix(events[i].startTime);
 		newEvent.end = moment.unix(events[i].endTime);
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
