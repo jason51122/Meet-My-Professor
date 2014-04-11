@@ -20,9 +20,9 @@
      		</div>
         
         	<ul>
-	          	<li id="nav_home">
+	          	<!-- <li id="nav_home">
 		            <a href="homepage2.html">HOME</a>
-		          </li>
+		          </li> -->
 		        <li id="nav_about">
 		            <a href="about.html">ABOUT</a>
 		        </li>
@@ -39,8 +39,10 @@
     	<ul id = "results">
             <div id = "element">
     		{{#results}}
-    			<li><strong>{{name}}</strong>-{{desc}} </li>
-                <li>{{email}}</li>
+    			<li class = "result-content"><a id = "name" style = "color:black", href = {{link}}><strong><span style = "font-size:25px">{{name}}</span></strong></a>-{{desc}}<li>
+                <li class = "result-content">{{email}}</li>
+                <li class = "result-content">{{id}}</li>
+               <!--  <li class = "result-content">{{link}}</li> -->
                 
     		{{/results}}
             </div>

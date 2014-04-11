@@ -35,3 +35,15 @@ INSERT INTO calTable VALUES(
     '20:00',
     10
 );
+
+INSERT INTO calTable VALUES(
+    'cal-000001',
+    'http://www.google.com/calendar/feeds/amanda_yao%40brown.edu/public/basic',
+    'The second calendar',
+    'Amanda Yao',
+    'amanda_yao@brown.edu',
+    1420002000,
+    '09:00:00',
+    '18:00:00',
+    20
+);

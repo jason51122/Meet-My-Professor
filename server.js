@@ -195,19 +195,35 @@ app.get('/calendar/pulling/:calID',function(request,response){
 app.get('/searchResult', function(request, response){
 	console.log("getting here");
 	// response.render('searchresult.html');
+	var search = request.query.query.trim();
+
+	if (10 === search.length && 'cal-' === search.substr(0,4)){
+		// search by calendar ID
+		response.redirect('/calendar/'+search);
+		return;
+	}
+
+	if (5 < search.length && 
+		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
+			// create new calendar
+		}
+
+		// search by owner name
+
 	var array = [];
+	// var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
+	
 	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
 	search_results.on('row', function(row){
 		array.push({
-			"name" : row.name, 
+			"name" : row.name,
+			"link" : row.calLink,
 			"email": row.email,
-			"desc" : row.calDesp
+			"desc" : row.calDesp,
+			"id" : row.calID
 
 		});
 		
-		// array.push(row.name);
-		// array.push(row.email);
-		// array.push(row.calDesp);
 	})
 	.on('end', function() {
 		// response.json(array);

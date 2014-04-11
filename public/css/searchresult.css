@@ -116,7 +116,23 @@ li a:active{
 }
 #title{
 	font-family:sans-serif;
-	margin-left:200px;
+	text-align:center;
 	font-size:40px;
 }
 
+#results{
+	list-style-type:none;
+}
+
+#name{
+	font-size:25px;
+}
+
+.result-content{
+	font-size:18px;
+	color:black;
+}
+
+#name:hover{
+	text-decoration:underline;
+}
