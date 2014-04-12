@@ -149,20 +149,20 @@ function pop_ok(){
 
 	var new_end = format_checker(str);
 	if (null === new_start || null === new_end ){
-		$("#time_description").html("The valid time format is XX:XX of 24 hours");
+		$("#time_description").html("The time is not in 24-hour HH:MM format");
 		$("#time_description").css("color","red");
 		return;
 	}
 
 	// check range
 	if (new_end.isBefore(new_start) || !time_validate(new_start, new_end)){
-		$("#time_description").html("Time range invalid or confilicts with others");
+		$("#time_description").html("The time range is invalid or overlapped");
 		$("#time_description").css("color","red");
 		return;
 	}
 
 	// restore time item
-	$("#time_description").html("From what time to what time");
+	$("#time_description").html("Your start time and end time");
 	$("#time_description").css("color","rgb(230, 230, 230)");
 
 	// check name
@@ -172,11 +172,11 @@ function pop_ok(){
 		return;
 	}
 	if (!validateName(str)){
-		$("#name_description").html("A valid name should not have special characters");
+		$("#name_description").html("Your name should not contain any special characters");
 		$("#name_description").css("color","red");
 		return;
 	}
-	$("#name_description").html("put your name here");
+	$("#name_description").html("Your name");
 	$("#name_description").css("color","rgb(230, 230, 230)");
 	eventData.name = str;
 
@@ -187,13 +187,13 @@ function pop_ok(){
 		return;
 	}
 	if (!validateEmail(str)){
-		$("#email_description").html("invalid email format");
+		$("#email_description").html("Your email format is invalid");
 		$("#email_description").css("color","red");
 		return;
 	}
 
 	eventData.email = str;
-	$("#email_description").html("your email address to receive notification");
+	$("#email_description").html("Your email address to receive notifications");
 	$("#email_description").css("color","rgb(230, 230, 230)");
 
 	// check for
@@ -253,7 +253,7 @@ function paste_events(events){
 	for (i = 0; i < events.length; i++){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
-		newEvent.title = 'Busy';
+		newEvent.title = 'busy';
 		newEvent.start = events[i].startTime;
 		newEvent.end = events[i].endTime;
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);

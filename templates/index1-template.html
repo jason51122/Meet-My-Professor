@@ -2,10 +2,10 @@
 <html>
 <head>
   <title>Homepage</title>
-  <link rel="stylesheet" href="css/index1.css" type="text/css"/>
+  <link rel="stylesheet" href="css/index1-template.css" type="text/css"/>
 
   <script type='text/javascript' src='js/jquery.min.js'></script>
-  <script type="text/javascript" src='js/index1.js'></script>
+  <script type="text/javascript" src='js/index1-template.js'></script>
 
 </head>
 
@@ -38,7 +38,8 @@
       <div id="app_name">Meet My Professor</div>
       <div id="search">
         <div id="search_wrapper">
-          <input id="search_input" type="text" name="search_input" value="link/ID/name">
+          <input id="search_input" type="text" name="search_input" onblur="if (this.value == '') {this.value = 'Calendar link/Calendar ID/Professor Name';}"
+ onfocus="if (this.value == 'Calendar link/Calendar ID/Professor Name') {this.value = '';}" value="Calendar link/Calendar ID/Professor Name">
           <input id="search_btn" type="button" name="search_btn">
         </div>
       </div>
@@ -48,11 +49,11 @@
         <div id = "center-box">
         <div id = "about-prof">
           <p><strong>Professors</strong></p>
-          <p> Enter a link to your public calendar.Students will be able to see this calendar and make reservations.</p>
+          <p> Enter a link to your public calendar. Students will be able to see this calendar and make reservations.</p>
         </div>
         <div id = "about-student">
             <p><strong>Students</strong></p>
-            <p>Search for a professor by their name or id, click on their calendar, and make a reservation!</p>
+            <p>Search for a professor by his name or calendar id. Click on his calendar and make a reservation.</p>
         </div>
         </div>
       </div>
@@ -60,7 +61,11 @@
       
       <div id = "contact">
         <p>Contact Us</p>
-        <p class= "about-content">Some Contact Info Here </p>
+        <p class= "about-content">Group 20 </p>
+		<p class= "about-content">Zhixiong Chen </p>
+		<p class= "about-content">Quan Fang </p>
+		<p class= "about-content">Zhidong Wu </p>
+		<p class= "about-content">Amanda Yao </p>
       </div>
   </div>
 

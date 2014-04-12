@@ -245,7 +245,7 @@ li a:active{
 	font-size: 15pt;
 	font-weight: bold;
 
-	text-align: left;
+	text-align: center;
 }
 
 .pop_body {
@@ -308,14 +308,14 @@ li a:active{
 #start_time {
 	width: 125px;
 	float: left;
-	text-align: left;
+	text-align: center;
 	margin-left: 13px;
 }
 
 #end_time {
 	width: 125px;
 	float: right;
-	text-align: left;
+	text-align: center;
 }
 
 #from_to{
