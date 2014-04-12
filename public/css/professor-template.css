@@ -150,13 +150,13 @@ li a:active{
 #start_time_static {
 	width: 110px;
 	float: left;
-	text-align: left;
+	text-align: center;
 }
 
 #end_time_static {
 	width: 110px;
 	float: right;
-	text-align: left;
+	text-align: center;
 	margin-left: 0px;
 }
 
