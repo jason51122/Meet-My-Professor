@@ -433,7 +433,7 @@ li a:active{
 }
 
 #message{
-	margin: 20px;
+	margin: 50px;
 	position: absolute;
 	margin-top: 50px;
 	font-size: 13pt;
@@ -442,6 +442,6 @@ li a:active{
 
 #message_btn{
 	position: absolute;
-	right: 20px;
-	bottom: 20px;
+	right: 50px;
+	bottom: 30px;
 }

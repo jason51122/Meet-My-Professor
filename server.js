@@ -11,7 +11,10 @@ var conn = anyDB.createConnection('sqlite3://'+dbstr+'.db');
 var resv = require('./lib/resv');
 resv.setConn(conn);
 
-var ndigits = 6;
+// lib for creating calendar
+var cal = require('./lib/cal');
+cal.setConn(conn);
+
 var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 // generate identifier
 function generateIdentifier() {
