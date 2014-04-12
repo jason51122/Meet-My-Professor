@@ -15,18 +15,6 @@ resv.setConn(conn);
 var cal = require('./lib/cal');
 cal.setConn(conn);
 
-var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-// generate identifier
-function generateIdentifier() {
-	// make a list of legal characters
-	// we're intentionally excluding 0, O, I, and 1 for readability
-	var i, result = '';
-	for (i = 0; i < 6; i++)
-	result += chars.charAt(Math.floor(Math.random() * chars.length));
-
-	return result;
-}
-
 var app = express();
 
 // the render engine
@@ -60,37 +48,9 @@ app.get('/create/:calLink',function(request,response){
 	});
 });
 
-function createNewCal(request, response){
-	var id = 'cal-'+generateIdentifier();
-
-	conn.query('SELECT * FROM calTable WHERE calId=$1;', [id], function(error, result){
-		if (null != error){
-			console.log(error);
-			return;
-		}
-		if (0 !== result.rowCount) {
-			createNewCal(request, response);
-		}
-		else {
-			conn.query('INSERT INTO calTable VALUES($1, $2, $3, $4, $5, strftime("%s", $6), $7, $8, $9);', 
-				[id, request.params.calLink, request.body.calDesp, request.body.name, request.body.email, 
-				request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim], 
-				function(error, result){
-				if (null !== error){
-					console.log(error);
-					return;
-				}
-				
-				console.log('Create new calendar: '.red, id.green);
-				response.send('Calendar ' + id + ' has been created.');
-			});
-		}
-	});
-}
-
 app.post('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	createNewCal(request, response);
+	cal.createNewCal(request, response);
 });
 
 app.get('/update/:calLink',function(request,response){

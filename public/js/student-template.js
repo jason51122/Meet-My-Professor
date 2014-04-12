@@ -285,7 +285,7 @@ function detail_submit(){
 
 	    	// db events are pigpacked
 		    if ('0' === data.state) {
-		    	$('#message').html('Reservation request failed because of time confilicts.');
+		    	$('#message').html('Reservation request failed because of time conflicts.');
 		    } else if ('1' == data.state) {
 		    	$('#message').html('Reservation request succeeded. Remember to check your email.');
 		    }

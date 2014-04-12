@@ -169,11 +169,15 @@ function pop_ok(){
 	$("#expireDate_description").css("color","rgb(230, 230, 230)");
 	
 	if (old[0] !== str1 || old[1] !== str2 || old[2] !== str3 || old[3] !== str4 || old[4] !== str5 || old[5] !== str6 || old[6] !== str7) {
+		$('#registration_wrapper').hide();
+		$("#result_wrapper").show();
+		$("#message").hide();
 		var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
+		
 		posting.done(function( data ) {
-			alert(data);
-			var encoded = encodeURIComponent(calObj.calLink);
-			window.location.href = '/update/' + encoded;
+			$("#progress").hide();
+			$("#message").show();
+			$('#message').html(data);
 		});
 	}
 	else {
@@ -256,4 +260,10 @@ function validateDate(date)
 function validateInterim(interim) {
 	var re = /^\d+$/;
 	return re.test(interim);
+}
+
+function message_ok(data){
+	$("#result_wrapper").hide();
+	var encoded = encodeURIComponent(calObj.calLink);
+	window.location.href = '/update/' + encoded;
 }
