@@ -309,7 +309,8 @@ function detail_submit(){
 		eventData.title,
 		eventData.start.format('YYYY-MM-DD HH:mm'),
 		eventData.end.format('YYYY-MM-DD HH:mm'),
-		calObj.email
+		calObj.email,
+		calObj.name
 	];
 
 	$.ajax({
@@ -322,9 +323,9 @@ function detail_submit(){
 
 	    	// db events are pigpacked
 		    if ('0' === data.state) {
-		    	$('#message').html('Reservation request failed because of time conflicts.');
+		    	$('#message').html('Reservation failed because of time conflicts.');
 		    } else if ('1' == data.state) {
-		    	$('#message').html('Reservation request succeeded. Remember to check your email.');
+		    	$('#message').html('Reservation is confirmed. Please check your email.');
 		    } else {
 		    	$('#message').html(data.message);
 		    }
