@@ -39,7 +39,20 @@ $(document).ready(function() {
 
 			pasteSuggestedTimes();
 			$("#reservation_wrapper").show();
-
+			
+			$("#start_time").datetimepicker({
+				datepicker:false,
+				value: eventData.start.format("HH:mm"),
+				format:'H:i',
+				step:5
+			});
+			$('#end_time').datetimepicker({
+				datepicker:false,
+				value: eventData.end.format("HH:mm"),
+				format:'H:i',
+				step:5
+			});
+			
 			$("#start_time").val(eventData.start.format("HH:mm"));
 			$("#end_time").val(eventData.end.format("HH:mm"));
 			$("#your_name").val('');
@@ -58,7 +71,6 @@ $(document).ready(function() {
 				return false;
 
 			$("#reservation_wrapper").show();
-
 			return false;
 		},
 		loading: function(bool) {
@@ -334,6 +346,14 @@ function message_ok(){
 function getSuggestedTimes(){
 	var times = [];
 	var date = eventData.start.format('YYYY-MM-DD');
+	var pieces = calObj.interim.split(':');
+	var hour, minute;
+	
+	if(pieces.length === 2) {
+	    hour = parseInt(pieces[0], 10);
+	    minute = parseInt(pieces[1], 10);
+	}
+	var interim = hour * 60 + minute;
 
 	var i,j,item,start;
 	for (i = 0; i < outerEvents.length; i++){
@@ -377,17 +397,17 @@ function getSuggestedTimes(){
 	i = 0;
 	// check a valid start
 	if (start === times[0]){
-		start = moment(times[1]).add('m',calObj.interim);
+		start = moment(times[1]).add('m',interim);
 		i = 2;
 	} else
 		start = moment(start);
 
 	var curEnd;
 	while (i < times.length){
-		curEnd = moment(times[i]).add('m',-calObj.interim);
+		curEnd = moment(times[i]).add('m',-interim);
 		if (curEnd.isAfter(start))
 			suggestedTimes.push({'start': start.format('HH:mm'), 'end': curEnd.format('HH:mm')});
-		start = moment(times[i+1]).add('m',calObj.interim);
+		start = moment(times[i+1]).add('m',interim);
 		i += 2;
 	}
 	

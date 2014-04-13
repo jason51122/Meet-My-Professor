@@ -6,7 +6,8 @@
 
     <link rel='stylesheet' type='text/css' href='/css/fullcalendar.css' />
     <link rel="stylesheet" href="/css/professor-template.css" type="text/css" />
-
+	<link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+	
     <script type="text/javascript" src='/js/global.js'></script>
     <script type="text/javascript">
       var calObj = new Object();
@@ -24,7 +25,9 @@
     <script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
     <script type="text/javascript" src='/js/moment.min.js'></script>
     <script type='text/javascript' src='/js/fullcalendar.js'></script>
-	  <script type='text/javascript' src='/js/gcal.js'></script>
+	<script type='text/javascript' src='/js/gcal.js'></script>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
     <script type="text/javascript" src='/js/professor-template.js'></script>
   </head>
 
@@ -131,7 +134,7 @@
 				<div class="pop_item">
 					<div class="pop_item_name">Interim </div>
 					<input class="pop_item_input" type="text" id="your_interim" value="{{interim}}">
-					<div class="pop_item_description" id="interim_description">Your interim minutes between two meetings </div>
+					<div class="pop_item_description" id="interim_description">Your interim time between two meetings in HH:MM format</div>
 				</div>
 				
 				<div class="pop_item">

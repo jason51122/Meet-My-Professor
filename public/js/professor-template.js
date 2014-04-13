@@ -5,6 +5,28 @@ $(document).ready(function() {
 	url = document.URL;
 	if (url.indexOf("create") != -1) {
 		$('#registration_wrapper').show();
+		$('#start_time').datetimepicker({
+			datepicker:false,
+			format:'H:i',
+			step:30
+		});
+		$('#end_time').datetimepicker({
+			datepicker:false,
+			format:'H:i',
+			step:30
+		});
+		$('#your_interim').datetimepicker({
+			datepicker:false,
+			format:'H:i',
+			allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
+		});
+		$('#your_expireDate').datetimepicker({
+			lang:'en',
+			timepicker:false,
+			format:'Y-m-d',
+			formatDate:'Y-m-d',
+			minDate:'0', // yesterday is minimum date
+		});
 	}
 	if (url.indexOf("update") != -1) {
 		// refetch outer events and db events in 1 minute
@@ -149,7 +171,7 @@ function pop_ok(){
 		$("#interim_description").css("color","red");
 		return;
 	}
-	if (!validateInterim(str6)){
+	if (!validateTime(str6)){
 		$("#interim_description").css("color","red");
 		return;
 	}
