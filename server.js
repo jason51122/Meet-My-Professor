@@ -187,7 +187,7 @@ app.get('/searchResult/:search', function(request, response){
 			response.redirect('/error/1');
 		}
 		else {
-			response.render('searchresult.html', {results: array});
+			response.render('searchresult-template.html', {results: array});
 		}
 	});
 
