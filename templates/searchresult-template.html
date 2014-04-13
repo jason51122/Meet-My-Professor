@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Search Result</title>
+
+    <link rel="stylesheet" href="/css/searchresult-template.css" type="text/css" />
+    <script type='text/javascript' src='/js/jquery.min.js'></script>
+  </head>
+
+<body>
+	<div id="banner">
+		<div id="theme">
+		</div>
+
+		<div id="navbar">
+			<div id="logo_wrapper">
+				<a id="logo" href="/"></a>
+			</div>
+        
+		</div>
+
+	</div>
+
+    <div id = "content">
+    	<p id = "title"> Search Results</h1>
+    	<ul id = "results">
+            <div id = "element">
+    		{{#results}}
+    			<li class = "result-content"><a id = "name" style = "color:black", href = "/calendar/{{id}}"><strong><span style = "font-size:25px">{{name}}</span></strong></a>-{{desc}}<li>
+                <li class = "result-content">{{email}}</li>
+                <li class = "result-content">{{id}}</li>
+               <!--  <li class = "result-content">{{link}}</li> -->
+                
+    		{{/results}}
+            </div>
+    	</ul>
+    </div>
+
+	<div id="footer"></div>
+
+</body>
+</html>

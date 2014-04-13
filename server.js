@@ -155,10 +155,11 @@ app.get('/calendar/pulling/:calID',function(request,response){
 // 		// search by owner name
 // });
 
-app.get('/searchResult', function(request, response){
+app.get('/searchResult/:search', function(request, response){
 	console.log("getting here");
 	// response.render('searchresult.html');
-	var search = request.query.query.trim();
+	var search = request.params.search;
+	console.log(search);
 
 	if (10 === search.length && 'cal-' === search.substr(0,4)){
 		// search by calendar ID
@@ -169,6 +170,8 @@ app.get('/searchResult', function(request, response){
 	if (5 < search.length && 
 		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
 			// create new calendar
+			response.redirect('/create/'+encodeURIComponent(search));
+			return;
 		}
 
 		// search by owner name
@@ -176,11 +179,10 @@ app.get('/searchResult', function(request, response){
 	var array = [];
 	// var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
 	
-	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
+	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + search + "%"]);
 	search_results.on('row', function(row){
 		array.push({
 			"name" : row.name,
-			"link" : row.calLink,
 			"email": row.email,
 			"desc" : row.calDesp,
 			"id" : row.calID
@@ -191,7 +193,7 @@ app.get('/searchResult', function(request, response){
 	.on('end', function() {
 		// response.json(array);
 		console.log(array);
-		response.render('searchresult.html', {results: array});
+		response.render('searchresult-template.html', {results: array});
 		// response.render('searchresults.html', array[0]);
 	});
 
