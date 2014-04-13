@@ -278,9 +278,6 @@ li a:active{
 }
 
 #search_btn {
-	background: url('../img/search.png') no-repeat;
-	background-position: top center;
-
 	border: none;
 
 	width: 50px;
@@ -291,6 +288,8 @@ li a:active{
 	border-left: solid 1px black;
 
 	cursor: pointer;
+	font-size: 15pt;
+	background-color: transparent;
 }
 
 
