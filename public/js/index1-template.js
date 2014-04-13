@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	$("#result_wrapper").hide();
+	
 	$('#theme_view').animate(
 		{"top":"-100px",
 		"left":"-50px",
@@ -17,17 +19,26 @@ $(document).ready(function() {
     	}, 500);
 	});
 	
-	$(document).keypress(function(e) {
-	    if(e.which == 13) {
-	        gofor();
-	    }
-	});
+	if (error != '') {
+		$("#result_wrapper").show();
+		$('#message').html(error);
+	}
+});
+
+$(document).keypress(function(e) {
+    if(e.which == 13) {
+        gofor();
+    }
 });
 
 function gofor(){
 	var str = $("#search_input").val().trim();
 	if (0 === str.length || str === 'Calendar link/Calendar ID/Professor Name')
 		return;
-
+		
 	window.location.href = "/searchResult/"+encodeURIComponent(str);
+}
+
+function message_ok(data){
+	$("#result_wrapper").hide();
 }

@@ -39,11 +39,11 @@ app.get('/create/:calLink',function(request,response){
 
 		if (0 === result.rowCount) {
 			response.render('professor-template.html', {
-				calLink: calLink,
+				calLink: calLink
 			});
 		}
 		else {
-			response.redirect('/');
+			response.redirect('/error/2');
 		}
 	});
 });
@@ -115,8 +115,9 @@ app.get('/calendar/:calID', function(request,response){
 			response.send(error);
 		}
 
-		if (0 === result.rowCount)
-		response.send('Could not find this calendar!');
+		if (0 === result.rowCount) {
+			response.redirect('/error/3');
+		}
 
 		response.render('student-template.html',result.rows[0]);
 	});
@@ -193,16 +194,37 @@ app.get('/searchResult/:search', function(request, response){
 	.on('end', function() {
 		// response.json(array);
 		console.log(array);
-		response.render('searchresult-template.html', {results: array});
-		// response.render('searchresults.html', array[0]);
+		if (array.length == 0) {
+			response.redirect('/error/1');
+		}
+		else {
+			response.render('searchresult-template.html', {results: array});
+		}
 	});
 
+});
+
+// error
+app.get('/error/:code',function(request,response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
+	var code = request.params.code;
+	var error = "";
+	if (code == 1) {
+		error = "Sorry. We can not find this professor.";
+	}
+	else if (code == 2) {
+		error = "Sorry. This calendar link has been used.";
+	}
+	else if (code == 3) {
+		error = "Sorry. We can not find this calendar.";
+	}
+	response.render('index1-template.html', {error: error});
 });
 
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	response.render('index1-template.html');
+	response.render('index1-template.html', {error: ''});
 });
 
 //Visit localhost:8080
