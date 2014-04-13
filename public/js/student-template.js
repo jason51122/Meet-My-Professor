@@ -325,15 +325,18 @@ function detail_submit(){
 		    	$('#message').html('Reservation request failed because of time conflicts.');
 		    } else if ('1' == data.state) {
 		    	$('#message').html('Reservation request succeeded. Remember to check your email.');
+		    } else {
+		    	$('#message').html(data.message);
 		    }
 
 			// reset
 	    	detail_reset();
 
 		    // reload db events into calendar
-		    dbEvents = data.data;
-		    paste_events(dbEvents);
-
+		    if (typeof data.data !== 'undefined'){
+		    	dbEvents = data.data;
+		    	paste_events(dbEvents);
+		    }
 	    },
 	    error: function(err) {
 	    	isNetworkError = true;
