@@ -137,25 +137,14 @@ app.get('/calendar/pulling/:calID',function(request,response){
 	resv.sendReservations(response, respObj, request.params.calID);
 });
 
-// app.get('/search/:what', function(request, response){
-// 	console.log('- Search received:', request.method.cyan, request.url.underline);
+// cancel
+app.get('/cancel/:resvID',function(request, response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
 
-// 	var search = request.params.what.trim();
+	resv.cancelReservation(request.params.resvID, response);
+});
 
-// 	if (10 === search.length && 'cal-' === search.substr(0,4)){
-// 		// search by calendar ID
-// 		response.redirect('/calendar/'+search);
-// 		return;
-// 	}
-
-// 	if (5 < search.length && 
-// 		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
-// 			// create new calendar
-// 		}
-
-// 		// search by owner name
-// });
-
+// search
 app.get('/searchResult/:search', function(request, response){
 	console.log("getting here");
 	// response.render('searchresult.html');
