@@ -6,6 +6,7 @@
 
     <link rel='stylesheet' type='text/css' href='/css/fullcalendar.css' />
     <link rel="stylesheet" href="/css/student-template.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
 
     <script type="text/javascript" src='/js/global.js'></script>
     <script type="text/javascript">
@@ -24,7 +25,8 @@
     <script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
     <script type="text/javascript" src='/js/moment.min.js'></script>
     <script type='text/javascript' src='/js/fullcalendar.js'></script>
-	  <script type='text/javascript' src='/js/gcal.js'></script>
+	<script type='text/javascript' src='/js/gcal.js'></script>
+  	<script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
     <script type="text/javascript" src='/js/student-template.js'></script>
   </head>
 
@@ -38,17 +40,6 @@
           <a id="logo" href="/"></a>
         </div>
         
-        <ul>
-          <li id="nav_home">
-            <a href="/">HOWTO</a>
-          </li>
-          <li id="nav_about">
-            <a href="/">ABOUT</a>
-          </li>
-          <li id="nav_contact">
-            <a href="/">CONTACT</a>
-          </li>
-        </ul>
       </div>
 
     </div>
@@ -60,13 +51,13 @@
         <div class="item">
           <div class="item_name">Owner </div>
           <div class="item_static" id="owner_static">{{name}}</div>
-          <div class="item_description">HCI professor from Brown University</div>
+          <div class="item_description"></div>
         </div>
 
         <div class="item">
           <div class="item_name">Calendar ID </div>
           <div class="item_static" id="calID_static">{{calID}}</div>
-          <div class="item_description">{{calDesp}}</div>
+          <div class="item_description"> </div>
         </div>
 
         <div id="reservation_detail">
@@ -76,25 +67,25 @@
             <div id="from_to_static"> </div>
             <div class="item_static" id="end_time_static">  </div>
             <div id="hr"></div>
-            <div class="item_description">The time you will meet</div>
+            <div class="item_description"> </div>
           </div>
 
           <div class="item">
             <div class="item_name">Name </div>
             <div class="item_static" id="name_static">  </div>
-            <div class="item_description">Your name displayed</div>
+            <div class="item_description"> </div>
           </div>
 
           <div class="item">
             <div class="item_name">Email </div>
             <div class="item_static" id="email_static"></div>
-            <div class="item_description">Your email for receiving notification</div>
+            <div class="item_description"> </div>
           </div>
 
           <div class="item">
             <div class="item_name">For </div>
             <div class="item_static"  id="for_static"></div>
-            <div class="item_description">For this reason, you want to meet</div>
+            <div class="item_description"> </div>
           </div>
 
           <div class="item" id="detail_btn_wrapper">
@@ -121,26 +112,25 @@
                 <input class="pop_item_input" type="text" id="start_time" value="">
                 <div id="from_to"></div>
                 <input class="pop_item_input" type="text" id="end_time" value="">
-                <div class="pop_item_description" id="time_description"> From what time to what time
-                </div>
+                <div class="pop_item_description" id="time_description">Your start time and end time in 24-hour HH:MM format </div>
               </div>
 
               <div class="pop_item">
                 <div class="pop_item_name">Name </div>
                 <input class="pop_item_input" type="text" id="your_name" value="">
-                <div class="pop_item_description" id="name_description"> put your name here</div>
+                <div class="pop_item_description" id="name_description">Your name </div>
               </div>
 
               <div class="pop_item">
                 <div class="pop_item_name">Email </div>
                 <input class="pop_item_input" type="text" id="your_email" value="">
-                <div class="pop_item_description" id="email_description">your email address to receive notification</div>
+                <div class="pop_item_description" id="email_description">Your email address to receive notifications </div>
               </div>
 
               <div class="pop_item">
                 <div class="pop_item_name">For </div>
                 <input class="pop_item_input" type="text" id="for_what" value="">
-                <div class="pop_item_description" id="for_description">your reason for this meet</div>
+                <div class="pop_item_description" id="for_description">Your reason for this meeting </div>
               </div>
 
               <div class="pop_item" id="btn_wrapper">
@@ -151,8 +141,6 @@
             <div class="pop_right">
               <div class="pop_title" id="suggested_times"> Suggested Times </div>
               <ul id="suggested_list">
-                <li class="suggested_item"> Time1
-                <li class="suggested_item"> Time2
               </ul>
             </div>
           </div>

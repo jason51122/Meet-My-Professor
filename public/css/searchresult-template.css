@@ -116,7 +116,47 @@ li a:active{
 }
 #title{
 	font-family:sans-serif;
-	margin-left:200px;
+	text-align:center;
 	font-size:40px;
 }
 
+#results{
+	list-style-type:none;
+}
+
+#name{
+	font-size:25px;
+}
+
+.result-content{
+	font-size:18px;
+	color:black;
+}
+
+#name:hover{
+	text-decoration:underline;
+}
+
+#result{
+	margin: auto;
+	margin-top: 100px;
+	width: 507px;
+	min-height: 260px;
+	border-radius: 5px;
+	background-color: white;
+	position: relative;
+}
+
+#message{
+	margin: 50px;
+	position: absolute;
+	margin-top: 50px;
+	font-size: 13pt;
+	font-family: sans-serif;
+}
+
+#message_btn{
+	position: absolute;
+	right: 50px;
+	bottom: 30px;
+}

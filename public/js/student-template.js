@@ -39,12 +39,35 @@ $(document).ready(function() {
 
 			pasteSuggestedTimes();
 			$("#reservation_wrapper").show();
-
+			
+			$("#start_time").datetimepicker({
+				datepicker:false,
+				value: eventData.start.format("HH:mm"),
+				format:'H:i',
+				step:5
+			});
+			$('#end_time').datetimepicker({
+				datepicker:false,
+				value: eventData.end.format("HH:mm"),
+				format:'H:i',
+				step:5
+			});
+			
 			$("#start_time").val(eventData.start.format("HH:mm"));
 			$("#end_time").val(eventData.end.format("HH:mm"));
+
+			// reset the interface
 			$("#your_name").val('');
 			$("#your_email").val('');
 			$("#for_what").val('');
+
+			$("#time_description").html("Your start time and end time");
+			$("#time_description").css("color","rgb(230, 230, 230)");
+			$("#name_description").html("Your name");
+			$("#name_description").css("color","rgb(230, 230, 230)");
+			$("#email_description").html("Your email address to receive notifications");
+			$("#email_description").css("color","rgb(230, 230, 230)");
+			$("#for_description").css("color","rgb(230, 230, 230)");
 
 			$('#calendar').fullCalendar('renderEvent', eventData, true);
 			$('#calendar').fullCalendar('unselect');
@@ -58,7 +81,6 @@ $(document).ready(function() {
 				return false;
 
 			$("#reservation_wrapper").show();
-
 			return false;
 		},
 		loading: function(bool) {
@@ -80,6 +102,21 @@ function format_checker(time){
 	new_moment.minute(parseInt(item[1]));
 
 	return new_moment;
+}
+
+function range_checker(start, end){
+	var startTime = start.format('HH:mm');
+	var endTime = end.format('HH:mm');
+	if (endTime <= startTime)
+		return false;
+
+	if (startTime < calObj.startTime || startTime > calObj.endTime)
+		return false;
+
+	if (endTime < calObj.startTime || endTime > calObj.endTime)
+		return false;
+
+	return true;
 }
 
 function time_validate(start, end){
@@ -149,20 +186,20 @@ function pop_ok(){
 
 	var new_end = format_checker(str);
 	if (null === new_start || null === new_end ){
-		$("#time_description").html("The valid time format is XX:XX of 24 hours");
+		$("#time_description").html("The time is not in 24-hour HH:MM format");
 		$("#time_description").css("color","red");
 		return;
 	}
 
 	// check range
-	if (new_end.isBefore(new_start) || !time_validate(new_start, new_end)){
-		$("#time_description").html("Time range invalid or confilicts with others");
+	if (!range_checker(new_start, new_end)||!time_validate(new_start, new_end)){
+		$("#time_description").html("The time range is invalid or overlapped");
 		$("#time_description").css("color","red");
 		return;
 	}
 
 	// restore time item
-	$("#time_description").html("From what time to what time");
+	$("#time_description").html("Your start time and end time");
 	$("#time_description").css("color","rgb(230, 230, 230)");
 
 	// check name
@@ -172,11 +209,11 @@ function pop_ok(){
 		return;
 	}
 	if (!validateName(str)){
-		$("#name_description").html("A valid name should not have special characters");
+		$("#name_description").html("Your name should not contain any special characters");
 		$("#name_description").css("color","red");
 		return;
 	}
-	$("#name_description").html("put your name here");
+	$("#name_description").html("Your name");
 	$("#name_description").css("color","rgb(230, 230, 230)");
 	eventData.name = str;
 
@@ -187,13 +224,13 @@ function pop_ok(){
 		return;
 	}
 	if (!validateEmail(str)){
-		$("#email_description").html("invalid email format");
+		$("#email_description").html("Your email format is invalid");
 		$("#email_description").css("color","red");
 		return;
 	}
 
 	eventData.email = str;
-	$("#email_description").html("your email address to receive notification");
+	$("#email_description").html("Your email address to receive notifications");
 	$("#email_description").css("color","rgb(230, 230, 230)");
 
 	// check for
@@ -253,7 +290,7 @@ function paste_events(events){
 	for (i = 0; i < events.length; i++){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
-		newEvent.title = 'Busy';
+		newEvent.title = 'busy';
 		newEvent.start = events[i].startTime;
 		newEvent.end = events[i].endTime;
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
@@ -285,7 +322,7 @@ function detail_submit(){
 
 	    	// db events are pigpacked
 		    if ('0' === data.state) {
-		    	$('#message').html('Reservation request failed because of time confilicts.');
+		    	$('#message').html('Reservation request failed because of time conflicts.');
 		    } else if ('1' == data.state) {
 		    	$('#message').html('Reservation request succeeded. Remember to check your email.');
 		    }
@@ -334,6 +371,14 @@ function message_ok(){
 function getSuggestedTimes(){
 	var times = [];
 	var date = eventData.start.format('YYYY-MM-DD');
+	var pieces = calObj.interim.split(':');
+	var hour, minute;
+	
+	if(pieces.length === 2) {
+	    hour = parseInt(pieces[0], 10);
+	    minute = parseInt(pieces[1], 10);
+	}
+	var interim = hour * 60 + minute;
 
 	var i,j,item,start;
 	for (i = 0; i < outerEvents.length; i++){
@@ -377,17 +422,17 @@ function getSuggestedTimes(){
 	i = 0;
 	// check a valid start
 	if (start === times[0]){
-		start = moment(times[1]).add('m',calObj.interim);
+		start = moment(times[1]).add('m',interim);
 		i = 2;
 	} else
 		start = moment(start);
 
 	var curEnd;
 	while (i < times.length){
-		curEnd = moment(times[i]).add('m',-calObj.interim);
+		curEnd = moment(times[i]).add('m',-interim);
 		if (curEnd.isAfter(start))
 			suggestedTimes.push({'start': start.format('HH:mm'), 'end': curEnd.format('HH:mm')});
-		start = moment(times[i+1]).add('m',calObj.interim);
+		start = moment(times[i+1]).add('m',interim);
 		i += 2;
 	}
 	

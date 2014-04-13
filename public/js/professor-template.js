@@ -5,6 +5,28 @@ $(document).ready(function() {
 	url = document.URL;
 	if (url.indexOf("create") != -1) {
 		$('#registration_wrapper').show();
+		$('#start_time').datetimepicker({
+			datepicker:false,
+			format:'H:i',
+			step:30
+		});
+		$('#end_time').datetimepicker({
+			datepicker:false,
+			format:'H:i',
+			step:30
+		});
+		$('#your_interim').datetimepicker({
+			datepicker:false,
+			format:'H:i',
+			allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
+		});
+		$('#your_expireDate').datetimepicker({
+			lang:'en',
+			timepicker:false,
+			format:'Y-m-d',
+			formatDate:'Y-m-d',
+			minDate:'0', // yesterday is minimum date
+		});
 	}
 	if (url.indexOf("update") != -1) {
 		// refetch outer events and db events in 1 minute
@@ -45,14 +67,14 @@ $(document).ready(function() {
 function paste_events(events){
 	// could be more efficient, just change those modified
 	$("#calendar").fullCalendar('removeEvents', 'dbEvents');
-
+	
 	var i;
 	for (i = 0; i < events.length; i++){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
-		newEvent.title = 'busy';
-		newEvent.start = moment.unix(events[i].startTime);
-		newEvent.end = moment.unix(events[i].endTime);
+		newEvent.title = events[i].name + ': ' + events[i].forWhat;
+		newEvent.start = events[i].startTime;
+		newEvent.end = events[i].endTime;
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
 	}
 }
@@ -122,58 +144,62 @@ function pop_ok(){
 	}
 	$("#email_description").css("color","rgb(230, 230, 230)");
 	
-	// check expire date
-	str4 = $('#your_expireDate').val().trim();
-	if (0 === str4.length){
-		$("#expireDate_description").css("color","red");
-		return;
-	}
-	if (!validateDate(str4)){
-		console.log('hhh');
-		$("#expireDate_description").css("color","red");
-		return;
-	}
-	$("#expireDate_description").css("color","rgb(230, 230, 230)");
-	
 	// check time
-	var str5 = $("#start_time").val().trim();
+	var str4 = $("#start_time").val().trim();
+	if (0 === str4.length){
+		$("#time_description").css("color","red");
+		return;
+	}
+	var new_start = validateTime(str4);
+
+	str5 = $("#end_time").val().trim();
 	if (0 === str5.length){
 		$("#time_description").css("color","red");
 		return;
 	}
-	var new_start = validateTime(str5);
-
-	str6 = $("#end_time").val().trim();
-	if (0 === str6.length){
-		$("#time_description").css("color","red");
-		return;
-	}
-	var new_end = validateTime(str6);
+	var new_end = validateTime(str5);
 	
 	if (null === new_start || null === new_end || !validateRange(new_start, new_end)){
 		$("#time_description").css("color","red");
 		return;
 	}
 	$("#time_description").css("color","rgb(230, 230, 230)");
-
+	
 	// check interim
-	str7 = $('#your_interim').val().trim();
+	str6 = $('#your_interim').val().trim();
 	if (0 === str6.length){
 		$("#interim_description").css("color","red");
 		return;
 	}
-	if (!validateInterim(str7)){
+	if (!validateTime(str6)){
 		$("#interim_description").css("color","red");
 		return;
 	}
 	$("#interim_description").css("color","rgb(230, 230, 230)");
 	
+	// check expire date
+	str7 = $('#your_expireDate').val().trim();
+	if (0 === str7.length){
+		$("#expireDate_description").css("color","red");
+		return;
+	}
+	if (!validateDate(str7)){
+		console.log('hhh');
+		$("#expireDate_description").css("color","red");
+		return;
+	}
+	$("#expireDate_description").css("color","rgb(230, 230, 230)");
+	
 	if (old[0] !== str1 || old[1] !== str2 || old[2] !== str3 || old[3] !== str4 || old[4] !== str5 || old[5] !== str6 || old[6] !== str7) {
-		var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, expireDate: str4, startTime: str5, endTime: str6, interim: str7 } );
+		$('#registration_wrapper').hide();
+		$("#result_wrapper").show();
+		$("#message").hide();
+		var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
+		
 		posting.done(function( data ) {
-			alert(data + " An email has been sent to " + str3 + ".");
-			var encoded = encodeURIComponent(calObj.calLink);
-			window.location.href = '/update/' + encoded;
+			$("#progress").hide();
+			$("#message").show();
+			$('#message').html(data);
 		});
 	}
 	else {
@@ -256,4 +282,10 @@ function validateDate(date)
 function validateInterim(interim) {
 	var re = /^\d+$/;
 	return re.test(interim);
+}
+
+function message_ok(data){
+	$("#result_wrapper").hide();
+	var encoded = encodeURIComponent(calObj.calLink);
+	window.location.href = '/update/' + encoded;
 }

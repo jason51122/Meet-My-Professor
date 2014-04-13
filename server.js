@@ -11,18 +11,9 @@ var conn = anyDB.createConnection('sqlite3://'+dbstr+'.db');
 var resv = require('./lib/resv');
 resv.setConn(conn);
 
-var ndigits = 6;
-var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-// generate identifier
-function generateIdentifier() {
-	// make a list of legal characters
-	// we're intentionally excluding 0, O, I, and 1 for readability
-	var i, result = '';
-	for (i = 0; i < 6; i++)
-	result += chars.charAt(Math.floor(Math.random() * chars.length));
-
-	return result;
-}
+// lib for creating calendar
+var cal = require('./lib/cal');
+cal.setConn(conn);
 
 var app = express();
 
@@ -48,46 +39,18 @@ app.get('/create/:calLink',function(request,response){
 
 		if (0 === result.rowCount) {
 			response.render('professor-template.html', {
-				calLink: calLink,
+				calLink: calLink
 			});
 		}
 		else {
-			response.redirect('/');
+			response.redirect('/error/2');
 		}
 	});
 });
 
-function createNewCal(request, response){
-	var id = 'cal-'+generateIdentifier();
-
-	conn.query('SELECT * FROM calTable WHERE calId=$1;', [id], function(error, result){
-		if (null != error){
-			console.log(error);
-			return;
-		}
-		if (0 !== result.rowCount) {
-			createNewCal(request, response);
-		}
-		else {
-			conn.query('INSERT INTO calTable VALUES($1, $2, $3, $4, $5, strftime("%s", $6), $7, $8, $9);', 
-				[id, request.params.calLink, request.body.calDesp, request.body.name, request.body.email, 
-				request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim], 
-				function(error, result){
-				if (null !== error){
-					console.log(error);
-					return;
-				}
-				
-				console.log('Create new calendar: '.red, id.green);
-				response.send('Calendar ' + id + ' has been created.');
-			});
-		}
-	});
-}
-
 app.post('/create/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	createNewCal(request, response);
+	cal.createNewCal(request, response);
 });
 
 app.get('/update/:calLink',function(request,response){
@@ -152,8 +115,9 @@ app.get('/calendar/:calID', function(request,response){
 			response.send(error);
 		}
 
-		if (0 === result.rowCount)
-		response.send('Could not find this calendar!');
+		if (0 === result.rowCount) {
+			response.redirect('/error/3');
+		}
 
 		response.render('student-template.html',result.rows[0]);
 	});
@@ -192,36 +156,75 @@ app.get('/calendar/pulling/:calID',function(request,response){
 // 		// search by owner name
 // });
 
-app.get('/searchResult', function(request, response){
+app.get('/searchResult/:search', function(request, response){
 	console.log("getting here");
 	// response.render('searchresult.html');
+	var search = request.params.search;
+	console.log(search);
+
+	if (10 === search.length && 'cal-' === search.substr(0,4)){
+		// search by calendar ID
+		response.redirect('/calendar/'+search);
+		return;
+	}
+
+	if (5 < search.length && 
+		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
+			// create new calendar
+			response.redirect('/create/'+encodeURIComponent(search));
+			return;
+		}
+
+		// search by owner name
+
 	var array = [];
-	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
+	// var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + request.query.query + "%"]);
+	
+	var search_results = conn.query('SELECT * FROM calTable WHERE name LIKE $1', ["%" + search + "%"]);
 	search_results.on('row', function(row){
 		array.push({
-			"name" : row.name, 
+			"name" : row.name,
 			"email": row.email,
-			"desc" : row.calDesp
+			"desc" : row.calDesp,
+			"id" : row.calID
 
 		});
 		
-		// array.push(row.name);
-		// array.push(row.email);
-		// array.push(row.calDesp);
 	})
 	.on('end', function() {
 		// response.json(array);
 		console.log(array);
-		response.render('searchresult.html', {results: array});
-		// response.render('searchresults.html', array[0]);
+		if (array.length == 0) {
+			response.redirect('/error/1');
+		}
+		else {
+			response.render('searchresult-template.html', {results: array});
+		}
 	});
 
+});
+
+// error
+app.get('/error/:code',function(request,response){
+	console.log('- Request received:', request.method.cyan, request.url.underline);
+	var code = request.params.code;
+	var error = "";
+	if (code == 1) {
+		error = "Sorry. We can not find this professor.";
+	}
+	else if (code == 2) {
+		error = "Sorry. This calendar link has been used.";
+	}
+	else if (code == 3) {
+		error = "Sorry. We can not find this calendar.";
+	}
+	response.render('index1-template.html', {error: error});
 });
 
 // by default
 app.get('*',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	response.render('index1-template.html');
+	response.render('index1-template.html', {error: ''});
 });
 
 //Visit localhost:8080

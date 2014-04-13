@@ -6,7 +6,8 @@
 
     <link rel='stylesheet' type='text/css' href='/css/fullcalendar.css' />
     <link rel="stylesheet" href="/css/professor-template.css" type="text/css" />
-
+	<link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+	
     <script type="text/javascript" src='/js/global.js'></script>
     <script type="text/javascript">
       var calObj = new Object();
@@ -24,7 +25,9 @@
     <script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
     <script type="text/javascript" src='/js/moment.min.js'></script>
     <script type='text/javascript' src='/js/fullcalendar.js'></script>
-	  <script type='text/javascript' src='/js/gcal.js'></script>
+	<script type='text/javascript' src='/js/gcal.js'></script>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
     <script type="text/javascript" src='/js/professor-template.js'></script>
   </head>
 
@@ -38,17 +41,6 @@
 				<a id="logo" href="/"></a>
 			</div>
         
-			<ul>
-				<li id="nav_home">
-					<a href="/">HOWTO</a>
-				</li>
-				<li id="nav_about">
-					<a href="/">ABOUT</a>
-				</li>
-				<li id="nav_contact">
-					<a href="/">CONTACT</a>
-				</li>
-			</ul>
 		</div>
 
 	</div>
@@ -76,11 +68,6 @@
 			</div>
 
 			<div class="item">
-				<div class="item_name">Expire Date </div>
-				<div class="item_static" id="static_expireDate">{{expireDate}} </div>
-			</div>
-
-			<div class="item">
 				<div class="item_name">Time </div>
 				<div class="item_static" id="start_time_static">{{startTime}} </div>
 				<div id="from_to_static"> </div>
@@ -90,6 +77,11 @@
 			<div class="item">
 				<div class="item_name">Interim </div>
 				<div class="item_static" id="static_interim">{{interim}} </div>
+			</div>
+			
+			<div class="item">
+				<div class="item_name">Expire Date </div>
+				<div class="item_static" id="static_expireDate">{{expireDate}} </div>
 			</div>
 				
 			<div class="item" id="detail_btn_wrapper">
@@ -128,13 +120,7 @@
 				<div class="pop_item">
 					<div class="pop_item_name">Email </div>
 					<input class="pop_item_input" type="text" id="your_email" value="{{email}}">
-					<div class="pop_item_description" id="email_description">Your email address to receive notification </div>
-				</div>
-
-				<div class="pop_item">
-					<div class="pop_item_name">Expire Date </div>
-					<input class="pop_item_input" type="text" id="your_expireDate" value="{{expireDate}}">
-					<div class="pop_item_description" id="expireDate_description">Your expire date for scheduling in YYYY-MM-DD format </div>
+					<div class="pop_item_description" id="email_description">Your email address to receive notifications </div>
 				</div>
 
 				<div class="pop_item">
@@ -148,7 +134,13 @@
 				<div class="pop_item">
 					<div class="pop_item_name">Interim </div>
 					<input class="pop_item_input" type="text" id="your_interim" value="{{interim}}">
-					<div class="pop_item_description" id="interim_description">Your interim minutes between two meetings </div>
+					<div class="pop_item_description" id="interim_description">Your interim time between two meetings in HH:MM format</div>
+				</div>
+				
+				<div class="pop_item">
+					<div class="pop_item_name">Expire Date </div>
+					<input class="pop_item_input" type="text" id="your_expireDate" value="{{expireDate}}">
+					<div class="pop_item_description" id="expireDate_description">Your expire date for scheduling in YYYY-MM-DD format </div>
 				</div>
 
 				<div class="pop_item" id="btn_wrapper">
@@ -157,6 +149,14 @@
 				</div>
 			</div>
             
+		</div>
+	</div>
+	
+	<div id="result_wrapper">
+		<div id="result">
+			<img id="progress" src='/img/loading.gif'></img>
+			<div id="message"></div>
+			<input class="btn detail_btn" type="button" id="message_btn" onclick="message_ok()" value="OK">
 		</div>
 	</div>
 </div>
