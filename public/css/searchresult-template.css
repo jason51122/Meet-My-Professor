@@ -122,41 +122,38 @@ li a:active{
 
 #results{
 	list-style-type:none;
+
 }
 
+#last-content{
+	border-bottom:1px solid black;
+	font-size:18px;
+	padding-bottom:20px;
+}
+
+#first-content{
+	padding-top:12px;
+	padding-bottom:5px;
+}
 #name{
 	font-size:25px;
+
 }
 
 .result-content{
 	font-size:18px;
 	color:black;
+	padding-bottom:5px;
 }
 
 #name:hover{
 	text-decoration:underline;
 }
 
-#result{
-	margin: auto;
-	margin-top: 100px;
-	width: 507px;
-	min-height: 260px;
-	border-radius: 5px;
-	background-color: white;
-	position: relative;
-}
-
-#message{
-	margin: 50px;
-	position: absolute;
-	margin-top: 50px;
-	font-size: 13pt;
-	font-family: sans-serif;
-}
-
-#message_btn{
-	position: absolute;
-	right: 50px;
-	bottom: 30px;
+#mag-glass{
+	width:70px;
+	height:70px;
+	margin-left:740px;
+	position:relative;
+	top:-100px;
 }

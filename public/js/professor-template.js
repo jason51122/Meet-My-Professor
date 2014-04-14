@@ -7,22 +7,26 @@ $(document).ready(function() {
 		$('#registration_wrapper').show();
 		$('#start_time').datetimepicker({
 			datepicker:false,
+			value:'09:00',
 			format:'H:i',
 			step:30
 		});
 		$('#end_time').datetimepicker({
 			datepicker:false,
+			value:'18:00',
 			format:'H:i',
 			step:30
 		});
 		$('#your_interim').datetimepicker({
 			datepicker:false,
+			value:'00:10',
 			format:'H:i',
 			allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
 		});
 		$('#your_expireDate').datetimepicker({
 			lang:'en',
 			timepicker:false,
+			value:'2014-12-31',
 			format:'Y-m-d',
 			formatDate:'Y-m-d',
 			minDate:'0', // yesterday is minimum date
@@ -102,13 +106,39 @@ function refetch(){
 
 function settings(){
 	$('#registration_wrapper').show();
+	$('#start_time').datetimepicker({
+		datepicker:false,
+		value:'09:00',
+		format:'H:i',
+		step:30
+	});
+	$('#end_time').datetimepicker({
+		datepicker:false,
+		value:'18:00',
+		format:'H:i',
+		step:30
+	});
+	$('#your_interim').datetimepicker({
+		datepicker:false,
+		value:'00:10',
+		format:'H:i',
+		allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
+	});
+	$('#your_expireDate').datetimepicker({
+		lang:'en',
+		timepicker:false,
+		value:'2014-12-31',
+		format:'Y-m-d',
+		formatDate:'Y-m-d',
+		minDate:'0', // yesterday is minimum date
+	});
 	old[0] = $("#your_calDesp").val().trim();
 	old[1] = $("#your_name").val().trim();
 	old[2] = $("#your_email").val().trim();
-	old[3] = $("#your_expireDate").val().trim();
-	old[4] = $("#start_time").val().trim();
-	old[5] = $("#end_time").val().trim();
-	old[6] = $("#your_interim").val().trim();
+	old[3] = $("#start_time").val().trim();
+	old[4] = $("#end_time").val().trim();
+	old[5] = $("#your_interim").val().trim();
+	old[6] = $("#your_expireDate").val().trim();
 }
 
 function pop_ok(){

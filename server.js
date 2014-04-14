@@ -43,7 +43,7 @@ app.get('/create/:calLink',function(request,response){
 			});
 		}
 		else {
-			response.redirect('/error/2');
+			response.redirect('/code/2');
 		}
 	});
 });
@@ -57,7 +57,7 @@ app.get('/update/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	
 	calLink = request.params.calLink;
-	conn.query('SELECT calID, calLink, calDesp, name, email, date(expireDate,"unixepoch") AS expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+	conn.query('SELECT calID, calLink, calDesp, name, email, expireDate AS expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
 		if (null != error){
 			console.log(error);
 			response.send(error);
@@ -77,7 +77,7 @@ app.get('/update/:calLink',function(request,response){
 			});
 		}
 		else {
-			response.redirect('/');
+			response.redirect('/code/3');
 		}
 	});
 });
@@ -116,7 +116,7 @@ app.get('/calendar/:calID', function(request,response){
 		}
 
 		if (0 === result.rowCount) {
-			response.redirect('/error/3');
+			response.redirect('/code/3');
 		}
 
 		response.render('student-template.html',result.rows[0]);
@@ -184,7 +184,7 @@ app.get('/searchResult/:search', function(request, response){
 		// response.json(array);
 		console.log(array);
 		if (array.length == 0) {
-			response.redirect('/error/1');
+			response.redirect('/code/1');
 		}
 		else {
 			response.render('searchresult-template.html', {results: array});
@@ -194,18 +194,27 @@ app.get('/searchResult/:search', function(request, response){
 });
 
 // error
-app.get('/error/:code',function(request,response){
+app.get('/code/:num',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
-	var code = request.params.code;
+	var num = request.params.num;
 	var error = "";
-	if (code == 1) {
+	if (num == 1) {
 		error = "Sorry. We can not find this professor.";
 	}
-	else if (code == 2) {
+	else if (num == 2) {
 		error = "Sorry. This calendar link has been used.";
 	}
-	else if (code == 3) {
+	else if (num == 3) {
 		error = "Sorry. We can not find this calendar.";
+	}
+	else if (num == 4) {
+		error = "The reservation has been canceled.";
+	}
+	else if (num == 5) {
+		error = "The reservation does not exist.";
+	}
+	else if (num == 10) {
+		error = "Sorry. Server error.";
 	}
 	response.render('index1-template.html', {error: error});
 });

@@ -10,7 +10,7 @@ CREATE TABLE calTable (
     expireDate TEXT,
     startTime TEXT,
     endTime TEXT,
-    interim INTEGER
+    interim TEXT
 );
 
 CREATE TABLE resvTable (
@@ -33,5 +33,5 @@ INSERT INTO calTable VALUES(
     '2014-12-31',
     '08:00',
     '20:00',
-    10
+    '00:10'
 );
