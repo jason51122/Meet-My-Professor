@@ -57,7 +57,7 @@ app.get('/update/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	
 	calLink = request.params.calLink;
-	conn.query('SELECT calID, calLink, calDesp, name, email, expireDate AS expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+	conn.query('SELECT calID, calLink, calDesp, name, email, expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
 		if (null != error){
 			console.log(error);
 			response.send(error);
