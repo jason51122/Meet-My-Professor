@@ -142,7 +142,7 @@ li a:active{
 	margin-left: 35px;
 	margin-top: 5px;
 	padding: 3px;
-	height: 18px;
+	min-height: 18px;
 	border-bottom: solid rgb(150, 150, 150);
 }
 
@@ -165,6 +165,11 @@ li a:active{
 	height: 1px;
 	border-bottom: solid rgb(150, 150, 150);
 	margin-left: 15px;
+}
+
+#calDesp p{
+	word-wrap: break-word;
+	margin: 0px;
 }
 
 .item_input {

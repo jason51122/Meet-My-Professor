@@ -7,18 +7,28 @@ $(document).ready(function() {
 	// refetch outer events and db events in 1 minute
 	setInterval(refetch, 60000);
 
+	var date = moment().format('YYYY-MM-DD');
+	var start = moment(date+' '+calObj.startTime);
+	var end = moment(date+' '+calObj.endTime);
+	var hours = end.diff(start, 'hours');
+	if (end.diff(start, 'hours', true) > hours)
+		hours++;
+
+	console.log(hours);
+	
 	$('#calendar').fullCalendar('today');
 		
 	$('#calendar').fullCalendar({
 		header: {
-			left: 'prev,next today',
+			left: 'prev,next',
 			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
+			right: ''
 		},
 		defaultView: 'agendaWeek',
 		timeFormat: 'HH:mm',
 		allDaySlot: true,
 		lazyFetching: false,
+		firstDay: moment().day(),
 		minTime: calObj.startTime + ':00',
 		maxTime: calObj.endTime + ':00',
 		slotDuration: '00:30:00',
@@ -85,7 +95,8 @@ $(document).ready(function() {
 		},
 		loading: function(bool) {
 			$('#loading').toggle(bool);
-		}
+		},
+		height: 48*(hours+1)
 	});
 
 	fetchDBEvents();

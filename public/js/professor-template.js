@@ -66,6 +66,8 @@ $(document).ready(function() {
 
 		fetchDBEvents();
 	}
+
+	adjust_calendar(calObj.startTime, calObj.endTime);
 });
 
 function paste_events(events){
@@ -195,6 +197,8 @@ function pop_ok(){
 	}
 	$("#time_description").css("color","rgb(230, 230, 230)");
 	
+	adjust_calendar(str4, str5);
+
 	// check interim
 	str6 = $('#your_interim').val().trim();
 	if (0 === str6.length){
@@ -318,4 +322,16 @@ function message_ok(data){
 	$("#result_wrapper").hide();
 	var encoded = encodeURIComponent(calObj.calLink);
 	window.location.href = '/update/' + encoded;
+}
+
+// adjust the height of the calendar, let the scroll bar disappear
+function adjust_calendar(startTime, endTime){
+	var date = moment().format('YYYY-MM-DD');
+	var start = moment(date+' '+startTime);
+	var end = moment(date+' '+endTime);
+	var hours = end.diff(start, 'hours');
+	if (end.diff(start, 'hours', true) > hours)
+		hours++;
+
+	$('#calendar').fullCalendar('option', 'height', 48*(hours+1));
 }
