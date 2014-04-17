@@ -129,7 +129,7 @@ li a:active{
 
 .item {
 	margin-bottom: 20px;
-	height: 55px;
+	clear: both;
 }
 
 .item_name {
@@ -142,8 +142,8 @@ li a:active{
 	margin-left: 35px;
 	margin-top: 5px;
 	padding: 3px;
-	height: 18px;
 	text-align: left;
+	margin-bottom: 18px;
 	border-bottom: solid rgb(150, 150, 150);
 }
 
@@ -447,4 +447,9 @@ li a:active{
 	position: absolute;
 	right: 50px;
 	bottom: 30px;
+}
+
+#static_calDesp p{
+	word-wrap: break-word;
+	margin: 0px;
 }
