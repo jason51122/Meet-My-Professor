@@ -321,7 +321,8 @@ function detail_submit(){
 		eventData.start.format('YYYY-MM-DD HH:mm'),
 		eventData.end.format('YYYY-MM-DD HH:mm'),
 		calObj.email,
-		calObj.name
+		calObj.name,
+		calTimezone
 	];
 
 	$.ajax({

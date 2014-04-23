@@ -52,6 +52,10 @@ function transformOptions(sourceOptions, start, end, timezone) {
 		startParam: 'start-min',
 		endParam: 'start-max',
 		success: function(data) {
+			//timezone
+			if (null === calTimezone)
+				calTimezone = data.feed.gCal$timezone.value;
+
 			var events = [];
 			if (data.feed.entry) {
 				$.each(data.feed.entry, function(i, entry) {
