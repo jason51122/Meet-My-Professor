@@ -57,7 +57,7 @@ app.get('/update/:calLink',function(request,response){
 	console.log('- Request received:', request.method.cyan, request.url.underline);
 	
 	calLink = request.params.calLink;
-	conn.query('SELECT calID, calLink, calDesp, name, email, expireDate, startTime, endTime, interim FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
+	conn.query('SELECT * FROM calTable WHERE calLink=$1;', [calLink], function(error, result){
 		if (null != error){
 			console.log(error);
 			response.send(error);
@@ -65,15 +65,16 @@ app.get('/update/:calLink',function(request,response){
 		if (0 !== result.rowCount) {
 			console.log(result.rows[0])
 			response.render('professor-template.html', {
-				calID: result.rows[0].calID,
 				calLink: result.rows[0].calLink,
-				calDesp: result.rows[0].calDesp,
+				calID: result.rows[0].calID,
+				calLoc: result.rows[0].calLoc,
+				instructions:result.rows[0].instructions,
 				name: result.rows[0].name,
 				email: result.rows[0].email,
-				expireDate: result.rows[0].expireDate,
 				startTime: result.rows[0].startTime,
 				endTime: result.rows[0].endTime,
-				interim: result.rows[0].interim
+				interim: result.rows[0].interim,
+				openPeriod:result.rows[0].openPeriod
 			});
 		}
 		else {
@@ -87,7 +88,7 @@ app.post('/update/:calLink',function(request,response){
 	
 	calLink = request.params.calLink;
 	
-	conn.query('UPDATE calTable SET calDesp=$1, name=$2, email=$3, expireDate=$4, startTime=$5, endTime=$6, interim=$7 WHERE calLink=$8;', [request.body.calDesp, request.body.name, request.body.email, request.body.expireDate, request.body.startTime, request.body.endTime, request.body.interim, calLink], function(error){
+	conn.query('UPDATE calTable SET calLoc=$1, instructions = $2, name=$3, email=$4,startTime=$5, endTime=$6, interim=$7, openPeriod =$8 WHERE calLink=$9;', [request.body.calLoc, request.body.instructions, request.body.name, request.body.email, request.body.startTime, request.body.endTime, request.body.interim, request.body.openPeriod, calLink], function(error){
 		if (null != error){
 			console.log(error);
 			return;
@@ -99,6 +100,7 @@ app.post('/update/:calLink',function(request,response){
 					return;
 				}
 				console.log(result.rows[0]);
+				console.log("getting here");
 				console.log('Update calendar: '.red, result.rows[0].calID.green);
 				response.send('Calendar ' + result.rows[0].calID + ' has been updated.');
 			});
@@ -135,6 +137,7 @@ app.get('/calendar/pulling/:calID',function(request,response){
 
 	var respObj = new Object();
 	resv.sendReservations(response, respObj, request.params.calID);
+	console.log("got to end of pulling");
 });
 
 // cancel
@@ -174,9 +177,8 @@ app.get('/searchResult/:search', function(request, response){
 		array.push({
 			"name" : row.name,
 			"email": row.email,
-			"desc" : row.calDesp,
-			"id" : row.calID
-
+			"id" : row.calID,
+			"calLoc": row.calLoc
 		});
 		
 	})

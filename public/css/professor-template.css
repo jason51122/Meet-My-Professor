@@ -226,12 +226,12 @@ li a:active{
 
 #registration {
 	width: 650px;
-	height: 475px;
+	height: 520px;
 
 	padding: 20px;
 
 	margin: auto;
-	margin-top: 100px;
+	margin-top: 40px;
 	border-radius: 5px;
 	border-color: #ffffff;
 	background-color: rgba(0,0,0,.6);
@@ -449,7 +449,7 @@ li a:active{
 	bottom: 30px;
 }
 
-#static_calDesp p{
+#static_calLoc p{
 	word-wrap: break-word;
 	margin: 0px;
 }

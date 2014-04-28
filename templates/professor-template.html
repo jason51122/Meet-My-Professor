@@ -13,10 +13,11 @@
       var calObj = new Object();
       calObj.calID = '{{calID}}';
       calObj.calLink = '{{calLink}}';
-      calObj.calDesp = '{{calDesp}}';
+      calObj.calLoc = '{{calLoc}}';
+      calObj.instructions = '{{instructions}}';
       calObj.name = '{{name}}';
       calObj.email = '{{email}}';
-      calObj.expireDate = '{{expireDate}}';
+      calObj.openPeriod = '{{openPeriod}}';
       calObj.startTime = '{{startTime}}';
       calObj.endTime = '{{endTime}}';
       calObj.interim = '{{interim}}';
@@ -52,8 +53,13 @@
 			</div>
 				
 			<div class="item">
-				<div class="item_name">Description </div>
-				<div class="item_static" id="static_calDesp"><p>{{calDesp}}</p></div>
+				<div class="item_name">Meeting Location </div>
+				<div class="item_static" id="static_calLoc"><p>{{calLoc}}</p></div>
+			</div>
+
+			<div class="item">
+				<div class="item_name">Instructions </div>
+				<div class="item_static" id="static_instructions">{{instructions}}</div>
 			</div>
 				 
 			<div class="item">
@@ -78,9 +84,13 @@
 				<div class="item_static" id="static_interim">{{interim}} </div>
 			</div>
 			
-			<div class="item">
+			<!-- <div class="item">
 				<div class="item_name">Expire Date </div>
 				<div class="item_static" id="static_expireDate">{{expireDate}} </div>
+			</div> -->
+			<div class="item">
+				<div class="item_name">Open Period</div>
+				<div class="item_static" id="static_openPeriod" value= "">{{openPeriod}} </div>
 			</div>
 				
 			<div class="item" id="detail_btn_wrapper">
@@ -102,11 +112,24 @@
 					<div class="pop_item_description" id="calLink_description">Your calendar link </div>
 				</div>
 				
+				<!-- should fix id names and css -->
+			<!-- 	<div class="pop_item">
+					<div class="pop_item_name">Meeting Location</div>
+					<input class="pop_item_input" type="text" id="your_calDesp" value="{{calLoc}}">
+					<div class="pop_item_description" id="calDesp_description">Your meeting location </div>
+				</div> -->
 				<div class="pop_item">
-					<div class="pop_item_name">Description </div>
-					<input class="pop_item_input" type="text" id="your_calDesp" value="{{calDesp}}">
-					<div class="pop_item_description" id="calDesp_description">Your meeting place and time preferences </div>
+					<div class="pop_item_name"> Location</div>
+					<input class="pop_item_input" type="text" id="your_calLoc" value="{{calLoc}}">
+					<div class="pop_item_description" id="calLoc_description">Your meeting location </div>
 				</div>
+
+				<div class="pop_item">
+					<div class="pop_item_name">Instructions </div>
+					<input class="pop_item_input" type="text" id="your_instructions" value="{{instructions}}">
+					<div class="pop_item_description" id="instruction_description">Instructions for students </div>
+				</div>
+
 			  
 				<div class="pop_item">
 					<div class="pop_item_name">Name </div>
@@ -134,10 +157,16 @@
 					<div class="pop_item_description" id="interim_description">Your interim time between two meetings in HH:MM format</div>
 				</div>
 				
-				<div class="pop_item">
+				<!-- <div class="pop_item">
 					<div class="pop_item_name">Expire Date </div>
 					<input class="pop_item_input" type="text" id="your_expireDate" value="{{expireDate}}">
 					<div class="pop_item_description" id="expireDate_description">Your expire date for scheduling in YYYY-MM-DD format </div>
+				</div> -->
+
+				<div class="pop_item">
+					<div class="pop_item_name">Open Period </div>
+					<input class="pop_item_input" type="text" id="your_openPeriod" value="{{openPeriod}}">
+					<div class="pop_item_description" id="openPeriod_description">Weeks your calendar is open for reservations </div>
 				</div>
 
 				<div class="pop_item" id="btn_wrapper">

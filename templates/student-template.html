@@ -13,13 +13,13 @@
       var calObj = new Object();
       calObj.calID = '{{calID}}';
       calObj.calLink = '{{calLink}}';
-      calObj.calDesp = '{{calDesp}}';
+      calObj.instructions = '{{instructions}}';
       calObj.name = '{{name}}';
       calObj.email = '{{email}}';
       calObj.startTime = '{{startTime}}';
       calObj.endTime = '{{endTime}}';
       calObj.interim = '{{interim}}';
-      calObj.period = 2;
+      calObj.period = '{{openPeriod}}';
     </script>
     <script type='text/javascript' src='/js/jquery.min.js'></script>
     <script type="text/javascript" src='/js/jquery-ui.custom.min.js'></script>
@@ -55,9 +55,9 @@
         </div>
 
         <div class="item">
-          <div class="item_name">Description </div>
+          <div class="item_name">Instructions </div>
           <div class="item_static" id="calDesp">
-            <p>{{calDesp}}</p>
+            <p>{{instructions}}</p>
           </div>
           <div class="item_description"> </div>
         </div>

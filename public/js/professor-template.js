@@ -27,14 +27,8 @@ $(document).ready(function() {
 			format:'H:i',
 			allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
 		});
-		$('#your_expireDate').datetimepicker({
-			lang:'en',
-			timepicker:false,
-			value:'2014-12-31',
-			format:'Y-m-d',
-			formatDate:'Y-m-d',
-			minDate:'0', // yesterday is minimum date
-		});
+
+		$('#your_openPeriod').val("2");
 	}
 	if (url.indexOf("update") != -1) {
 		// refetch outer events and db events in 1 minute
@@ -152,34 +146,36 @@ function settings(){
 		format:'H:i',
 		allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
 	});
-	$('#your_expireDate').datetimepicker({
-		lang:'en',
-		timepicker:false,
-		value:'2014-12-31',
-		format:'Y-m-d',
-		formatDate:'Y-m-d',
-		minDate:'0', // yesterday is minimum date
-	});
-	old[0] = $("#your_calDesp").val().trim();
+
+	old[0] = $("#your_calLoc").val().trim(); //change to location later
 	old[1] = $("#your_name").val().trim();
 	old[2] = $("#your_email").val().trim();
 	old[3] = $("#start_time").val().trim();
 	old[4] = $("#end_time").val().trim();
 	old[5] = $("#your_interim").val().trim();
-	old[6] = $("#your_expireDate").val().trim();
+	old[6] = $('#your_instructions').val().trim();
+	old[7] = $('#your_openPeriod').val().trim();
 }
 
 function pop_ok(){
-	// check description
-	str1 = $("#your_calDesp").val().trim();
+	// check location
+	var str1 = $("#your_calLoc").val().trim();
 	if (0 === str1.length){
-		$("#calDesp_description").css("color","red");
+		$("#calLoc_description").css("color","red");
 		return;
 	}
-	$("#calDesp_description").css("color","rgb(230, 230, 230)");
+	$("#calLoc_description").css("color","rgb(230, 230, 230)");
 	
+	//check instructions
+	var str7 = $("#your_instructions").val().trim();
+	if (0 === str7.length){
+		$("#instruction_description").css("color","red");
+		return;
+	}
+	$("#instruction_description").css("color","rgb(230, 230, 230)");
+
 	// check name
-	str2 = $('#your_name').val().trim();
+	var str2 = $('#your_name').val().trim();
 	if (0 === str2.length){
 		$("#name_description").css("color","red");
 		return;
@@ -191,7 +187,7 @@ function pop_ok(){
 	$("#name_description").css("color","rgb(230, 230, 230)");
 	
 	// check email
-	str3 = $('#your_email').val().trim();
+	var str3 = $('#your_email').val().trim();
 	if (0 === str3.length){
 		$("#email_description").css("color","red");
 		return;
@@ -210,7 +206,7 @@ function pop_ok(){
 	}
 	var new_start = validateTime(str4);
 
-	str5 = $("#end_time").val().trim();
+	var str5 = $("#end_time").val().trim();
 	if (0 === str5.length){
 		$("#time_description").css("color","red");
 		return;
@@ -226,7 +222,7 @@ function pop_ok(){
 	adjust_calendar(str4, str5);
 
 	// check interim
-	str6 = $('#your_interim').val().trim();
+	var str6 = $('#your_interim').val().trim();
 	if (0 === str6.length){
 		$("#interim_description").css("color","red");
 		return;
@@ -236,26 +232,29 @@ function pop_ok(){
 		return;
 	}
 	$("#interim_description").css("color","rgb(230, 230, 230)");
+
 	
-	// check expire date
-	str7 = $('#your_expireDate').val().trim();
-	if (0 === str7.length){
-		$("#expireDate_description").css("color","red");
+	//check open period
+	var str8 = $('#your_openPeriod').val().trim();
+	if (0 === str8.length){
+		$("#openPeriod_description").css("color","red");
 		return;
 	}
-	if (!validateDate(str7)){
+	if (!validateNumber(str8)){
 		console.log('hhh');
-		$("#expireDate_description").css("color","red");
+		$("#openPeriod_description").css("color","red");
 		return;
 	}
-	$("#expireDate_description").css("color","rgb(230, 230, 230)");
+	$("#openPeriod_description").css("color","rgb(230, 230, 230)");
+
+
 	
-	if (old[0] !== str1 || old[1] !== str2 || old[2] !== str3 || old[3] !== str4 || old[4] !== str5 || old[5] !== str6 || old[6] !== str7) {
+	if (old[0] !== str1 || old[1] !== str2 || old[2] !== str3 || old[3] !== str4 || old[4] !== str5 || old[5] !== str6 || old[6] !== str7 || old[7] !== str8) {
 		$('#registration_wrapper').hide();
 		$("#result_wrapper").show();
 		$("#message").hide();
-		var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
-		
+		// var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
+		var posting = $.post( document.URL, {calLoc: str1, instructions:str7, name:str2, email: str3, startTime: str4, endTime: str5, interim: str6, openPeriod: str8});
 		posting.done(function( data ) {
 			$("#progress").hide();
 			$("#message").show();
@@ -266,6 +265,7 @@ function pop_ok(){
 		$('#registration_wrapper').hide();
 	}
  }
+
 
 function pop_cancel(){
 	if (url.indexOf("create") != -1) {
@@ -307,6 +307,15 @@ function validateEmail(email)
 function validateName(name){
 	var re = /[~`!@#\$%\^&*+=\-\[\]\\';,/{}|'"':<>?]/g;
 	return !(re.test(name));
+}
+
+function validateNumber(number){
+	var re = /^\d+$/;
+	var isPosNumber = re.test(number);
+	if (number == 0){
+		isPosNumber = false;
+	}
+	return isPosNumber;
 }
 
 function validateDate(date)
