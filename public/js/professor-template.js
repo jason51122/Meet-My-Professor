@@ -1,7 +1,11 @@
 var dbEvents = [];
 var old = [];
+var timeformat = 'YYYY-MM-DD HH:mm';
 
 $(document).ready(function() {
+	
+	callNext = fetchDBEvents;
+
 	url = document.URL;
 	if (url.indexOf("create") != -1) {
 		$('#registration_wrapper').show();
@@ -63,26 +67,49 @@ $(document).ready(function() {
 				$('#loading').toggle(bool);
 			}
 		});
-
-		fetchDBEvents();
 	}
 
 	adjust_calendar(calObj.startTime, calObj.endTime);
 });
 
 function paste_events(events){
+	if (events.length === 0)
+		return;
+
 	// could be more efficient, just change those modified
 	$("#calendar").fullCalendar('removeEvents', 'dbEvents');
-	
+
+	// refresh dbEvents
+	dbEvents = [];
+
 	var i;
 	for (i = 0; i < events.length; i++){
 		var newEvent = new Object();
 		newEvent.id = 'dbEvents';
-		newEvent.title = events[i].name + ': ' + events[i].forWhat;
+		newEvent.title = 'reservation';
 		newEvent.start = events[i].startTime;
 		newEvent.end = events[i].endTime;
+		newEvent.backgroundColor = '#3a87ad';
+		newEvent.borderColor = '#3a87ad';
+
+		// if the event is stored in outerEvents(confirmed), avoid duplicates
+		if (inOuterEvents(newEvent))
+			continue;
+
+		dbEvents.push(events[i]);
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
 	}
+}
+
+function inOuterEvents(event){
+	for (var i = 0; i < outerEvents.length; i++){
+		if (outerEvents[i].start.format(timeformat) === event.start && 
+			outerEvents[i].end.format(timeformat) === event.end &&
+			outerEvents[i].id !== event.id)
+			return true;
+	}
+
+	return false;
 }
 
 function fetchDBEvents(){
@@ -91,8 +118,7 @@ function fetchDBEvents(){
 	    url: "/calendar/pulling/"+calObj.calID,
 	    dataType: "json",
 	    success: function(data) {
-		    dbEvents = data.data;
-		    paste_events(dbEvents);
+		    paste_events(data.data);
 	    },
 	    error: function(err) {
 	    	isNetworkError = true;
@@ -103,7 +129,7 @@ function fetchDBEvents(){
 
 function refetch(){
 	$('#calendar').fullCalendar('refetchEvents');
-	fetchDBEvents();
+	callNext = fetchDBEvents;
 }
 
 function settings(){
@@ -333,5 +359,5 @@ function adjust_calendar(startTime, endTime){
 	if (end.diff(start, 'hours', true) > hours)
 		hours++;
 
-	$('#calendar').fullCalendar('option', 'height', 48*(hours+1));
+	$('#calendar').fullCalendar('option', 'height', 50*(hours+1));
 }
