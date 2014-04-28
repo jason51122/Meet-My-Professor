@@ -2,14 +2,21 @@ var isExist = false;
 var eventData = null;
 var dbEvents = [];
 var timeformat = 'YYYY-MM-DD HH:mm';
+var dateStart = null;
+var dateEnd = null;
 
 $(document).ready(function() {
 	// refetch outer events and db events in 1 minute
 	setInterval(refetch, 60000);
+	callNext = fetchDBEvents;
 
-	var date = moment().format('YYYY-MM-DD');
-	var start = moment(date+' '+calObj.startTime);
-	var end = moment(date+' '+calObj.endTime);
+	var date = moment();
+	// set up display range
+	dateStart = date.format('YYYY-MM-DD');
+	dateEnd = date.add('d', 7*calObj.period-1).format('YYYY-MM-DD');
+
+	var start = moment(dateStart+' '+calObj.startTime);
+	var end = moment(dateStart+' '+calObj.endTime);
 	var hours = end.diff(start, 'hours');
 	if (end.diff(start, 'hours', true) > hours)
 		hours++;
@@ -96,10 +103,27 @@ $(document).ready(function() {
 		loading: function(bool) {
 			$('#loading').toggle(bool);
 		},
-		height: 48*(hours+1)
-	});
+		viewRender: function(view) {
+			var startDate = view.start.format('YYYY-MM-DD');
+			var endDate = view.end.add('d','-1').format('YYYY-MM-DD');
+			if (startDate === dateStart){
+				// hide previous button
+				$('.fc-button-prev').hide();
+			} else {
+				// display previous button
+				$('.fc-button-prev').show();
+			}
 
-	fetchDBEvents();
+			if (endDate === dateEnd){
+				// hide next button
+				$('.fc-button-next').hide();
+			} else {
+				// display next button
+				$('.fc-button-next').show();
+			}
+		},
+		height: 50*(hours+1)
+	});
 });
 
 function format_checker(time){
@@ -293,9 +317,14 @@ function detail_reset(){
 }
 
 function paste_events(events){
-	// could be more efficient, just change those modified
+	if (events.length === 0)
+		return;
 
+	// could be more efficient, just change those modified
 	$("#calendar").fullCalendar('removeEvents', 'dbEvents');
+
+	// refresh dbEvents
+	dbEvents = [];
 
 	var i;
 	for (i = 0; i < events.length; i++){
@@ -304,8 +333,25 @@ function paste_events(events){
 		newEvent.title = 'busy';
 		newEvent.start = events[i].startTime;
 		newEvent.end = events[i].endTime;
+
+		// if the event is stored in outerEvents(confirmed), avoid duplicates
+		if (inOuterEvents(newEvent))
+			continue;
+
+		dbEvents.push(events[i]);
 		$('#calendar').fullCalendar('renderEvent', newEvent, true);
 	}
+}
+
+function inOuterEvents(event){
+	for (var i = 0; i < outerEvents.length; i++){
+		if (outerEvents[i].start.format(timeformat) === event.start && 
+			outerEvents[i].end.format(timeformat) === event.end &&
+			outerEvents[i].id !== event.id)
+			return true;
+	}
+
+	return false;
 }
 
 function detail_submit(){
@@ -347,8 +393,7 @@ function detail_submit(){
 
 		    // reload db events into calendar
 		    if (typeof data.data !== 'undefined'){
-		    	dbEvents = data.data;
-		    	paste_events(dbEvents);
+		    	paste_events(data.data);
 		    }
 	    },
 	    error: function(err) {
@@ -364,8 +409,7 @@ function fetchDBEvents(){
 	    url: "/calendar/pulling/"+calObj.calID,
 	    dataType: "json",
 	    success: function(data) {
-		    dbEvents = data.data;
-		    paste_events(dbEvents);
+		    paste_events(data.data);
 	    },
 	    error: function(err) {
 	    	isNetworkError = true;
@@ -376,7 +420,7 @@ function fetchDBEvents(){
 
 function refetch(){
 	$('#calendar').fullCalendar('refetchEvents');
-	fetchDBEvents();
+	callNext = fetchDBEvents;
 }
 
 function message_ok(){

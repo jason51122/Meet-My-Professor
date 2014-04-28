@@ -1332,6 +1332,9 @@ function EventManager(options) { // assumed to be a calendar
 				if (0 === sourcesBarrier){
 					outerEvents = tempEvents;
 					console.log("all sources contacted");
+					if (null !== callNext)
+						callNext();
+					callNext = null;
 				}
 			}
 		});
