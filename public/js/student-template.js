@@ -33,7 +33,7 @@ $(document).ready(function() {
 		},
 		defaultView: 'agendaWeek',
 		timeFormat: 'HH:mm',
-		allDaySlot: true,
+		allDaySlot: false,
 		lazyFetching: false,
 		firstDay: moment().day(),
 		minTime: calObj.startTime + ':00',
