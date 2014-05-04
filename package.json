@@ -9,7 +9,8 @@
 		"consolidate": "0.7.x",
 		"sqlite3": "2.1.x",
 		"colors": "0.6.x",
-		"nodemailer":"0.6.x",
-		"moment":"2.5.x"
+		"nodemailer": "0.6.x",
+		"moment": "2.5.x",
+		"forever": "0.11.x"
 	}
 }
