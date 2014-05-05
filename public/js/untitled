@@ -6,21 +6,23 @@ $(document).ready(function() {
 	
 	callNext = fetchDBEvents;
 
-	url = document.URL;
+	var url = document.URL;
 	if (url.indexOf("create") != -1) {
 		var link = decodeURIComponent(url.split("create/")[1]);
-		var name = "";
-		var email = "";
 
 		$.ajax({
   			dataType: "jsonp",
 			url: link.replace(/\/basic$/, '/free-busy') + '?alt=json-in-script',
-			success: function(data) {
-				$.each(data.feed.author, function(i, v) {
-					name = v.name.$t;
-					email = v.email.$t;
-					console.log(name);
-					console.log(email);
+			success: function(xml) {
+				var name = "";
+				var email = "";
+				name = xml.feed.author[0].name.$t;
+				email = xml.feed.author[0].email.$t;
+
+				if (name == "" || email == "") {
+					window.location.href = "/";
+				}
+				else {
 					$('#registration_wrapper').show();
 					$('#start_time').datetimepicker({
 						datepicker:false,
@@ -44,14 +46,11 @@ $(document).ready(function() {
 					$("#your_email").val(email);
 
 					$('#your_openPeriod').val("2");
-				});
-
-				if (name == "" || email == "") {
-					window.location.href = "/code/6";
 				}
 			},
 			error: function() {
-				window.location.href = "/code/6";
+				console.log("abc");
+				window.location.href = "/";
 			}
 		});
 	}

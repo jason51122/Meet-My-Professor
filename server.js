@@ -160,12 +160,18 @@ app.get('/searchResult/:search', function(request, response){
 		return;
 	}
 
-	if (5 < search.length && 
-		('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))){
-			// create new calendar
+	if (5 < search.length && ('http:' === search.substr(0,5) || 'https:' === search.substr(0,6))) {
+		// create new calendar
+		if (-1 !== search.indexOf("http://www.google.com/calendar/feeds/") || -1 !== search.indexOf("https://www.google.com/calendar/feeds/")) {
 			response.redirect('/create/'+encodeURIComponent(search));
 			return;
 		}
+		else {
+			console.log("Jaosn");
+			response.redirect('/code/6');
+			return;
+		}
+	}
 
 		// search by owner name
 
@@ -213,7 +219,10 @@ app.get('/code/:num',function(request,response){
 		error = "The reservation has been canceled.";
 	}
 	else if (num == 5) {
-		error = "The reservation does not exist.";
+		error = "Sorry. The reservation does not exist.";
+	}
+	else if (num == 6) {
+		error = "Sorry. The link is not valid.";
 	}
 	else if (num == 10) {
 		error = "Sorry. Server error.";
