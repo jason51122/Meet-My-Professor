@@ -453,3 +453,8 @@ li a:active{
 	word-wrap: break-word;
 	margin: 0px;
 }
+
+#static_calLink p{
+	word-wrap: break-word;
+	margin: 0px;
+}
