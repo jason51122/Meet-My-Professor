@@ -8,13 +8,13 @@ $(document).ready(function() {
 
 	url = document.URL;
 	if (url.indexOf("create") != -1) {
-		var link = decodeURIComponent(url.split("create/")[1]);
+		var part = decodeURIComponent(url.split("create/")[1]);
 		var name = "";
 		var email = "";
 
 		$.ajax({
   			dataType: "jsonp",
-			url: link.replace(/\/basic$/, '/free-busy') + '?alt=json-in-script',
+			url: part.replace(/\/basic$/, '/free-busy') + '?alt=json-in-script',
 			success: function(data) {
 				$.each(data.feed.author, function(i, v) {
 					name = v.name.$t;
