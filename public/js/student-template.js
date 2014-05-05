@@ -164,9 +164,9 @@ function time_validate(start, end){
 			continue;
 		
 		cur = [outerEvents[i].start.format(timeformat), outerEvents[i].end.format(timeformat)];
-		if (test[0] >= cur[0] && test[0] <= cur[1])
+		if (test[0] > cur[0] && test[0] < cur[1])
 			return false;
-		if (test[1] >= cur[0] && test[1] <= cur[1])
+		if (test[1] > cur[0] && test[1] < cur[1])
 			return false;
 		if (cur[0] > test[0] && cur[1] < test[1])
 			return false;
@@ -175,9 +175,9 @@ function time_validate(start, end){
 	for (i = 0; i < dbEvents.length; i++){
 		cur = [dbEvents[i].startTime, dbEvents[i].endTime];
 
-		if (test[0] >= cur[0] && test[0] <= cur[1])
+		if (test[0] > cur[0] && test[0] < cur[1])
 			return false;
-		if (test[1] >= cur[0] && test[1] <= cur[1])
+		if (test[1] > cur[0] && test[1] < cur[1])
 			return false;
 		if (cur[0] > test[0] && cur[1] < test[1])
 			return false;
