@@ -13,6 +13,7 @@
       var calObj = new Object();
       calObj.calID = '{{calID}}';
       calObj.calLink = '{{calLink}}';
+      calObj.calLoc = '{{calLoc}}';
       calObj.instructions = '{{instructions}}';
       calObj.name = '{{name}}';
       calObj.email = '{{email}}';
@@ -51,6 +52,12 @@
         <div class="item">
           <div class="item_name">Owner </div>
           <div class="item_static" id="owner_static">{{name}}</div>
+          <div class="item_description"></div>
+        </div>
+
+        <div class="item">
+          <div class="item_name">Location </div>
+          <div class="item_static" id="owner_static">{{calLoc}}</div>
           <div class="item_description"></div>
         </div>
 
