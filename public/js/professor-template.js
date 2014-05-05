@@ -18,9 +18,7 @@ $(document).ready(function() {
 			success: function(data) {
 				$.each(data.feed.author, function(i, v) {
 					name = v.name.$t;
-					email = v.email.$t;
 					console.log(name);
-					console.log(email);
 					$('#registration_wrapper').show();
 					$('#start_time').datetimepicker({
 						datepicker:false,
@@ -41,12 +39,11 @@ $(document).ready(function() {
 						allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
 					});
 					$("#your_name").val(name);
-					$("#your_email").val(email);
 
 					$('#your_openPeriod').val("2");
 				});
 
-				if (name == "" || email == "") {
+				if (name == "") {
 					window.location.href = "/code/6";
 				}
 			},
