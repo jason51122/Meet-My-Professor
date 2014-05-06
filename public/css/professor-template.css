@@ -226,8 +226,6 @@ li a:active{
 
 #registration {
 	width: 650px;
-	height: 520px;
-
 	padding: 20px;
 
 	margin: auto;
@@ -457,4 +455,8 @@ li a:active{
 #static_calLink p{
 	word-wrap: break-word;
 	margin: 0px;
+}
+
+#hr {
+	clear: both;
 }
