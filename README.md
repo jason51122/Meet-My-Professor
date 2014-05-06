@@ -8,10 +8,10 @@ From Zhixiong Chen, Quan Fang, Zhidong Wu, Amanda Yao.
 To run the project, please install node.js and follow the 3 steps as below:
 
 1. 	Install packages:
-	sqlite3 mmp.db < schema.sql
+	npm install
 
 2.	Create the database:
-	npm install
+	sqlite3 mmp.db < schema.sql
 
 3.	Run the server:
 	node server.js
