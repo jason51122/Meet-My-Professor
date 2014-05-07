@@ -16,6 +16,7 @@ var cal = require('./lib/cal');
 cal.setConn(conn);
 
 var app = express();
+var port = process.env.PORT || 8080;
 
 // the render engine
 app.engine('html',engines.hogan);
@@ -237,6 +238,6 @@ app.get('*',function(request,response){
 });
 
 //Visit localhost:8080
-app.listen(8080, function(){
-	console.log('- Server listening on port 8080'.grey);
+app.listen(port, function(){
+	console.log('- Server listening on port '+port);
 });
