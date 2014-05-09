@@ -1,3 +1,4 @@
 node_modules/
 mmp.db
 sqlite3
+lib/emailer/index.js
