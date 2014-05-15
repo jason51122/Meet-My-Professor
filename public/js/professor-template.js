@@ -7,6 +7,8 @@ $(document).ready(function() {
 
 	url = document.URL;
 	if (url.indexOf("create") != -1) {
+		$('#note').hide();
+
 		var part = decodeURIComponent(url.split("create/")[1]);
 		var name = "";
 		var email = "";
@@ -52,40 +54,46 @@ $(document).ready(function() {
 		});
 	}
 	if (url.indexOf("update") != -1) {
+		$('#static_openPeriod').val(calObj.openPeriod+' week(s)');
+
 		// refetch outer events and db events in 1 minute
 		setInterval(refetch, 60000);
-		
-		$('#calendar').fullCalendar('today');
-		
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
-			},
-			defaultView: 'agendaWeek',
-			allDaySlot: true,
-			lazyFetching: false,
-			minTime: calObj.startTime + ':00',
-			maxTime: calObj.endTime + ':00',
-			slotDuration: '00:30:00',
-			snapDuration: '00:30:00',
-			selectHelper: false,
-			selectable: false,
-			editable: false,
-			eventClick: function(event) {
-				return false;
-			},
-			events: calObj.calLink,
-			eventColor: '#a52d23',
-			loading: function(bool) {
-				$('#loading').toggle(bool);
-			}
-		});
+		renderCalendar();
 	}
+});
+
+function renderCalendar(){
+	$('#calendar').fullCalendar('destroy');
+	$('#calendar').fullCalendar('today');
+		
+	$('#calendar').fullCalendar({
+		header: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		defaultView: 'agendaWeek',
+		allDaySlot: true,
+		lazyFetching: false,
+		minTime: calObj.startTime + ':00',
+		maxTime: calObj.endTime + ':00',
+		slotDuration: '00:30:00',
+		snapDuration: '00:30:00',
+		selectHelper: false,
+		selectable: false,
+		editable: false,
+		eventClick: function(event) {
+			return false;
+		},
+		events: calObj.calLink,
+		eventColor: '#a52d23',
+		loading: function(bool) {
+			$('#loading').toggle(bool);
+		}
+	});
 
 	adjust_calendar(calObj.startTime, calObj.endTime);
-});
+}
 
 function paste_events(events){
 	if (events.length === 0)
@@ -239,8 +247,6 @@ function pop_ok(){
 		return;
 	}
 	$("#time_description").css("color","rgb(230, 230, 230)");
-	
-	adjust_calendar(str4, str5);
 
 	// check interim
 	var str6 = $('#your_interim').val().trim();
@@ -281,11 +287,12 @@ function pop_ok(){
 	$('#static_instructions p').html(calObj.instructions);
 	$('#static_name').html(calObj.name);
 	$('#static_email').html(calObj.email);
-	$('#static_startTime').html(calObj.startTime);
-	$('#static_endTime').html(calObj.endTime);
+	$('#start_time_static').html(calObj.startTime);
+	$('#end_time_static').html(calObj.endTime);
 	$('#static_interim').html(calObj.interim);
 	$('#static_openPeriod').html(calObj.openPeriod+' week(s)');
 
+	renderCalendar();
 	$('#registration_wrapper').hide();
  }
 
@@ -295,6 +302,8 @@ function detail_submit(){
 	// var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
 	var posting = $.post( document.URL, calObj);
 	posting.done(function( data ) {
+		$('#note').show()
+		
 		$("#progress").hide();
 		$("#message").show();
 		$('#message').html(data);
