@@ -54,7 +54,7 @@ $(document).ready(function() {
 		});
 	}
 	if (url.indexOf("update") != -1) {
-		$('#static_openPeriod').val(calObj.openPeriod+' week(s)');
+		$('#static_openPeriod').html(calObj.openPeriod+' week(s)');
 
 		// refetch outer events and db events in 1 minute
 		setInterval(refetch, 60000);
@@ -303,7 +303,7 @@ function detail_submit(){
 	var posting = $.post( document.URL, calObj);
 	posting.done(function( data ) {
 		$('#note').show()
-		
+
 		$("#progress").hide();
 		$("#message").show();
 		$('#message').html(data);
