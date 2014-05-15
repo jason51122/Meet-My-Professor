@@ -48,12 +48,7 @@
 	<div id="content">
 		<div id="side">
 			<div class="item">
-				<div class="item_name">Link to Share </div>
-				<div class="item_static" id="static_calLink"><p>http://maxwell.cs.brown.edu:8080/calendar/{{calID}}</p></div>
-			</div>
-				
-			<div class="item">
-				<div class="item_name">Meeting Location </div>
+				<div class="item_name">Location </div>
 				<div class="item_static" id="static_calLoc"><p>{{calLoc}}</p></div>
 			</div>
 
@@ -61,7 +56,7 @@
 				<div class="item_name">Instructions </div>
 				<div class="item_static" id="static_instructions">{{instructions}}</div>
 			</div>
-				 
+					 
 			<div class="item">
 				<div class="item_name">Name </div>
 				<div class="item_static" id="static_name">{{name}} </div>
@@ -90,15 +85,22 @@
 			</div> -->
 			<div class="item">
 				<div class="item_name">Open Period</div>
-				<div class="item_static" id="static_openPeriod" value= "">{{openPeriod}} </div>
+				<div class="item_static" id="static_openPeriod" value= "">{{openPeriod}} week(s)</div>
 			</div>
 				
 			<div class="item" id="detail_btn_wrapper">
-				<input class="btn detail_btn" type="button" id="submit_btn" onclick="settings()" value="Settings">
+				<input class="btn detail_btn" type="button" id="submit_btn" onclick="detail_submit()" value="Submit">
+				<input class="btn detail_btn" type="button" id="reset_btn" onclick="settings()" value="Edit">
 			</div>
 		</div>
 
-		<div id="calendar"></div>
+		<div id="right_side">
+			<div id="note">
+				Link to share: http://meet.cs.brown.edu/calendar/{{calID}}
+			</div>
+
+			<div id="calendar"></div>
+		</div>
 	</div>
 	
 	<div id="registration_wrapper">
@@ -120,40 +122,40 @@
 				</div> -->
 				<div class="pop_item">
 					<div class="pop_item_name"> Location</div>
-					<input class="pop_item_input" type="text" id="your_calLoc" value="{{calLoc}}">
+					<input class="pop_item_input" type="text" id="your_calLoc" value="">
 					<div class="pop_item_description" id="calLoc_description">Your meeting location </div>
 				</div>
 
 				<div class="pop_item">
 					<div class="pop_item_name">Instructions </div>
-					<input class="pop_item_input" type="text" id="your_instructions" value="{{instructions}}">
+					<input class="pop_item_input" type="text" id="your_instructions" value="">
 					<div class="pop_item_description" id="instruction_description">Instructions for students </div>
 				</div>
 
 			  
 				<div class="pop_item">
 					<div class="pop_item_name">Name </div>
-					<input class="pop_item_input" type="text" id="your_name" value="{{name}}">
+					<input class="pop_item_input" type="text" id="your_name" value="">
 					<div class="pop_item_description" id="name_description">Your name without any special characters </div>
 				</div>
 
 				<div class="pop_item">
 					<div class="pop_item_name">Email </div>
-					<input class="pop_item_input" type="text" id="your_email" value="{{email}}">
+					<input class="pop_item_input" type="text" id="your_email" value="">
 					<div class="pop_item_description" id="email_description">Your email address to receive notifications </div>
 				</div>
 
 				<div class="pop_item">
 					<div class="pop_item_name">Start and End Time </div>
-					<input class="pop_item_input" type="text" id="start_time" value="{{startTime}}">
+					<input class="pop_item_input" type="text" id="start_time" value="">
 					<div id="from_to"></div>
-					<input class="pop_item_input" type="text" id="end_time" value="{{endTime}}">
+					<input class="pop_item_input" type="text" id="end_time" value="">
 					<div class="pop_item_description" id="time_description">Your start time and end time for scheduling in 24-hour HH:MM format </div>
 				</div>
 			  			  
 				<div class="pop_item">
 					<div class="pop_item_name">Interim </div>
-					<input class="pop_item_input" type="text" id="your_interim" value="{{interim}}">
+					<input class="pop_item_input" type="text" id="your_interim" value="">
 					<div class="pop_item_description" id="interim_description">Your interim time between two meetings in HH:MM format</div>
 				</div>
 				
@@ -165,7 +167,7 @@
 
 				<div class="pop_item">
 					<div class="pop_item_name">Open Period </div>
-					<input class="pop_item_input" type="text" id="your_openPeriod" value="{{openPeriod}}">
+					<input class="pop_item_input" type="text" id="your_openPeriod" value="">
 					<div class="pop_item_description" id="openPeriod_description">Weeks your calendar is open for reservations </div>
 				</div>
 

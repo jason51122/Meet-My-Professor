@@ -1,5 +1,4 @@
 var dbEvents = [];
-var old = [];
 var timeformat = 'YYYY-MM-DD HH:mm';
 
 $(document).ready(function() {
@@ -169,14 +168,14 @@ function settings(){
 		allowTimes:['00:00','00:05','00:10','00:15','00:20','00:25','00:30','00:35','00:40','00:45','00:50','00:55','01:00']
 	});
 
-	old[0] = $("#your_calLoc").val().trim(); //change to location later
-	old[1] = $("#your_name").val().trim();
-	old[2] = $("#your_email").val().trim();
-	old[3] = $("#start_time").val().trim();
-	old[4] = $("#end_time").val().trim();
-	old[5] = $("#your_interim").val().trim();
-	old[6] = $('#your_instructions').val().trim();
-	old[7] = $('#your_openPeriod').val().trim();
+	$("#your_calLoc").val(calObj.calLoc);
+	$("#your_name").val(calObj.name);
+	$("#your_email").val(calObj.email);
+	$("#start_time").val(calObj.startTime);
+	$("#end_time").val(calObj.endTime);
+	$("#your_interim").val(calObj.interim);
+	$('#your_instructions').val(calObj.instructions);
+	$('#your_openPeriod').val(calObj.openPeriod);
 }
 
 function pop_ok(){
@@ -269,25 +268,38 @@ function pop_ok(){
 	}
 	$("#openPeriod_description").css("color","rgb(230, 230, 230)");
 
-
+	calObj.calLoc = str1;
+	calObj.instructions = str7;
+	calObj.name = str2;
+	calObj.email = str3;
+	calObj.startTime = str4;
+	calObj.endTime = str5;
+	calObj.interim = str6;
+	calObj.openPeriod = str8;
 	
-	if (old[0] !== str1 || old[1] !== str2 || old[2] !== str3 || old[3] !== str4 || old[4] !== str5 || old[5] !== str6 || old[6] !== str7 || old[7] !== str8) {
-		$('#registration_wrapper').hide();
-		$("#result_wrapper").show();
-		$("#message").hide();
-		// var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
-		var posting = $.post( document.URL, {calLoc: str1, instructions:str7, name:str2, email: str3, startTime: str4, endTime: str5, interim: str6, openPeriod: str8});
-		posting.done(function( data ) {
-			$("#progress").hide();
-			$("#message").show();
-			$('#message').html(data);
-		});
-	}
-	else {
-		$('#registration_wrapper').hide();
-	}
+	$('#static_calLoc p').html(calObj.calLoc);
+	$('#static_instructions p').html(calObj.instructions);
+	$('#static_name').html(calObj.name);
+	$('#static_email').html(calObj.email);
+	$('#static_startTime').html(calObj.startTime);
+	$('#static_endTime').html(calObj.endTime);
+	$('#static_interim').html(calObj.interim);
+	$('#static_openPeriod').html(calObj.openPeriod+' week(s)');
+
+	$('#registration_wrapper').hide();
  }
 
+function detail_submit(){
+	$("#result_wrapper").show();
+	$("#message").hide();
+	// var posting = $.post( document.URL, { calDesp: str1, name: str2, email: str3, startTime: str4, endTime: str5, interim: str6, expireDate: str7} );
+	var posting = $.post( document.URL, calObj);
+	posting.done(function( data ) {
+		$("#progress").hide();
+		$("#message").show();
+		$('#message').html(data);
+	});
+}
 
 function pop_cancel(){
 	if (url.indexOf("create") != -1) {

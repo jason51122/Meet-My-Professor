@@ -105,7 +105,7 @@ $(document).ready(function() {
 		},
 		viewRender: function(view) {
 			var startDate = view.start.format('YYYY-MM-DD');
-			var endDate = view.end.add('d','-1').format('YYYY-MM-DD');
+			var endDate = view.end.clone().add('d','-1').format('YYYY-MM-DD');
 			if (startDate === dateStart){
 				// hide previous button
 				$('.fc-button-prev').hide();

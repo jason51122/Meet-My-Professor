@@ -3,11 +3,7 @@ var nodemailer = require("nodemailer");
 // create reusable transport method (opens pool of SMTP connections)
 var smtpTransport = nodemailer.createTransport("SMTP",{
     host: "mx.cs.brown.edu",
-    port: 25,
-    auth: {
-        user: "meet.my.professor@gmail.com",
-        pass: "meetmyprofessor"
-    }
+    port: 25
 });
 
 /* setup e-mail data with unicode symbols
