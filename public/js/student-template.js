@@ -168,7 +168,7 @@ function time_validate(start, end){
 			return false;
 		if (test[1] > cur[0] && test[1] < cur[1])
 			return false;
-		if (cur[0] > test[0] && cur[1] < test[1])
+		if (cur[0] >= test[0] && cur[1] <= test[1])
 			return false;
 	}
 
@@ -179,7 +179,7 @@ function time_validate(start, end){
 			return false;
 		if (test[1] > cur[0] && test[1] < cur[1])
 			return false;
-		if (cur[0] > test[0] && cur[1] < test[1])
+		if (cur[0] >= test[0] && cur[1] <= test[1])
 			return false;
 	}
 
@@ -368,7 +368,8 @@ function detail_submit(){
 		eventData.end.format('YYYY-MM-DD HH:mm'),
 		calObj.email,
 		calObj.name,
-		calTimezone
+		calTimezone,
+		calObj.calLoc
 	];
 
 	$.ajax({
