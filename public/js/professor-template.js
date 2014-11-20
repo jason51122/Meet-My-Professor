@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 		$.ajax({
   			dataType: "jsonp",
-			url: part.replace(/\/basic$/, '/free-busy') + '?alt=json-in-script',
+			url: part.replace(/\/basic$/, '/basic') + '?alt=json-in-script',
 			success: function(data) {
 				$.each(data.feed.author, function(i, v) {
 					name = v.name.$t;

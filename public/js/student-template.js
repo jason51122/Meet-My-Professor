@@ -21,11 +21,15 @@ $(document).ready(function() {
 	if (end.diff(start, 'hours', true) > hours)
 		hours++;
 
-	console.log(hours);
+	//console.log(hours);
 	
 	$('#calendar').fullCalendar('today');
-		
+
 	$('#calendar').fullCalendar({
+		googleCalendarApiKey: 'AIzaSyBBpoUdMM5b3fdaGbjdpkE_vTq0nbEFvMo',
+		events: {
+           	googleCalendarId: get_calId(calObj.calLink),
+        },
 		header: {
 			left: 'prev,next',
 			center: 'title',
@@ -90,7 +94,6 @@ $(document).ready(function() {
 			$('#calendar').fullCalendar('unselect');
 		},
 		editable: false,
-		events: calObj.calLink,
 		eventColor: '#a52d23',
 		eventClick: function(event) {
 			// opens events in a popup window
@@ -125,6 +128,30 @@ $(document).ready(function() {
 		height: 50*(hours+1)
 	});
 });
+
+function get_calId(url) {
+	var googleCalendarId;
+	var match;
+
+	if ((match = /^[^\/]+@([^\/]+\.)?calendar\.google\.com$/.test(url))) {
+		googleCalendarId = url;
+	}
+	// try to scrape it out of a V1 or V3 API feed URL
+	else if (
+		(match = /^https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/([^\/]*)/.exec(url)) ||
+		(match = /^https?:\/\/www.google.com\/calendar\/feeds\/([^\/]*)/.exec(url))
+	) {
+		googleCalendarId = decodeURIComponent(match[1]);
+	}
+	else {
+		googleCalendarId = null;
+	}
+
+	googleCalendarId = googleCalendarId.trim();
+	console.log(googleCalendarId);
+	
+	return googleCalendarId;
+}
 
 function format_checker(time){
 	time = time.trim();
