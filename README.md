@@ -1,7 +1,7 @@
 Meet-My-Professor
 =================
 
-Final Project for Brown University CSCI1320 Creating Modern Web Applications.
+Brown University Computer Science Department online reservation system for professors and students.
 
 From Zhixiong Chen, Quan Fang, Zhidong Wu, Amanda Yao.
 
@@ -12,6 +12,8 @@ To run the project, please install sqlite3, node.js and follow the 3 steps as be
 
 2. 	Install packages:
 	npm install
+
+3.	Change the filename from lib/emailer/index.js.tmpl to lib/emailer/index.js.
 
 3.	Run the server:
 	node server.js
