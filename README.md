@@ -1,7 +1,7 @@
 Meet-My-Professor
 =================
 
-Brown University Computer Science Department online reservation system for professors and students.
+Brown University Computer Science Department Online Reservation System.
 
 From Zhixiong Chen, Quan Fang, Zhidong Wu, Amanda Yao.
 
