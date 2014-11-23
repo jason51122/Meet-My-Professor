@@ -111,18 +111,18 @@ $(document).ready(function() {
 			var endDate = view.end.clone().add('d','-1').format('YYYY-MM-DD');
 			if (startDate === dateStart){
 				// hide previous button
-				$('.fc-button-prev').hide();
+				$('.fc-prev-button').hide();
 			} else {
 				// display previous button
-				$('.fc-button-prev').show();
+				$('.fc-prev-button').show();
 			}
 
 			if (endDate === dateEnd){
 				// hide next button
-				$('.fc-button-next').hide();
+				$('.fc-next-button').hide();
 			} else {
 				// display next button
-				$('.fc-button-next').show();
+				$('.fc-next-button').show();
 			}
 		},
 		height: 50*(hours+1)
